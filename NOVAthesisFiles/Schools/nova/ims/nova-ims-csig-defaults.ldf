@@ -188,18 +188,17 @@
 }
 
 \NTAddToHook{abstract/pre}{%
-  \preto{\chapterheadstart}{%
-    \noindent\begin{minipage}[t][0pt][t]{\textwidth}
-      \begin{center}%
-        \textbf{\Large\thedoctitle(\@LSHORT,main,cover)}%
-        \ifdatadefined{doctitle}(\@LANG@COVER-sub,cover){%
-          \\[6mm]%
-          \textbf{\Large\thedoctitle(\@LSHORT-sub,cover)}%
-        }{}%
-      \end{center}%
-    \end{minipage}%
-  }%
+  \let\oldchapterheadstart=\chapterheadstart%
+  % \preto{\chapterheadstart}{{\noindent\newsgottbf\Large\thedoctitle(\@LSHORT,main)}}%
+  \preto{\chapterheadstart}{\vspace*{-2cm}}%
   \appto{\chaptitlefont}{\centering}%
+}
+\NTAddToHook{abstract/mid}{%
+  % \let\oldchapterheadstart=\chapterheadstart%
+  {{\noindent\newsgottbf\Large\thedoctitle(\@LSHORT,main)}\\[1ex]}%
+}
+\NTAddToHook{abstract/post}{%
+  \let\chapterheadstart=\oldchapterheadstart%
 }
 \NTAddToHook{abstracts/pre}{%
   \let\oldchapterheadstart=\chapterheadstart%

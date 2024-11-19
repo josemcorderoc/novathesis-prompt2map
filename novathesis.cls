@@ -1047,7 +1047,7 @@
   % \ntdocdate(#1,month,text):={\pgfcalendarmonthname{\thentdocdate(#1,month)}}%
   \ntdocdate(#1,month,text):={\monthtotext[\@NTDM]}%
 }
-\ntdocdate(default):={2000-09-01}
+\ntdocdate(default):={2024-11-17}
 \ntdate(submission){\thentdocdate(default)}
 \ntdate(exam){\thentdocdate(default)}
 
@@ -2715,19 +2715,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \providecommand{\keywords}[1]{%
     \NTRunHook{keywords/pre}%
-    % \NTRunHook{keywords/#1/pre}%
     \def\and{\unskip\datadefault{keywordssep}(\@LSHORT)}%
-    % \def\and{{\textperiodcentered} }%
-    \par\addvspace\baselineskip\noindent%
+    \par\addvspace\baselineskip%
     \begingroup%
+    \setlength{\parindent}{0pt} % Disable indentation
+    \noindent% Ensure no indentation
     \datadefault{keywordsstringprefix}(\@LSHORT)%
     \datadefault{keywordsstringfont}(\@LSHORT)%
     \csuse{thekeywordsstring}(\@LSHORT)%
     \datadefault{keywordsstringsuffix}(\@LSHORT)%
     \endgroup%
-    % \enspace
     \ignorespaces#1%
-    % \NTRunHook{keywords/#1/post}%
     \NTRunHook{keywords/post}%
 }%
 

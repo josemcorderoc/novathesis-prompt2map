@@ -8,44 +8,17 @@
 
 \typeout{NT FILE abstract-pt.tex}%
 
-Independentemente da língua em que a dissertação está escrita, geralmente esta contém pelo menos dois resumos: um resumo na mesma língua do texto principal e outro resumo numa outra língua.
+Os Sistemas de Informação Geográfica (SIG) e as tecnologias web tornaram a criação de mapas mais acessível do que nunca. No entanto, ainda é necessário um conhecimento técnico das ferramentas de SIG para produzir resultados cartográficos.
+Esta tese apresenta o Prompt2Map, um sistema que converte consultas em linguagem natural em mapas web utilizando Grandes Modelos de Linguagem (LLMs).
+A nossa abordagem baseia-se em \textit{Retrieval-Augmented Generation} (RAG), envolvendo uma etapa inicial de extração de dados a partir de fontes geoespaciais, seguida de uma etapa de mapeamento para visualizar os dados.
+Testes de desempenho realizados com consultas sintéticas demonstram a eficácia do sistema.
+Discutimos também as implicações éticas desta abordagem.
+Este trabalho contribui para reduzir a lacuna entre consumidores e produtores de mapas, oferecendo uma interface em linguagem natural para dados geoespaciais autoritativos, aproximando assim a informação espacial do público em geral.
 
-A ordem dos resumos varia de acordo com a escola. Se a sua escola tiver regulamentos específicos sobre a ordem dos resumos, o template (\LaTeX) \gls{novathesis} irá respeitá-los. Caso contrário, a regra padrão no template \gls{novathesis} é ter em primeiro lugar o resumo \emph{no mesmo idioma do texto principal} e depois o resumo \emph{no outro idioma}. Por exemplo, se a dissertação for escrita em português, a ordem dos resumos será primeiro o português e depois o inglês, seguido do texto principal em português. Se a dissertação for escrita em inglês, a ordem dos resumos será primeiro em inglês e depois em português, seguida do texto principal em inglês.
-%
-No entanto, esse pedido pode ser personalizado adicionando um dos seguintes ao arquivo \verb+5_packages.tex+.
-
-\begin{verbatim}
-    \abstractorder(<MAIN_LANG>):={<LANG_1>,...,<LANG_N>}
-\end{verbatim}
-
-Por exemplo, para um documento escrito em Alemão com resumos em Alemão, Inglês e Italiano (por esta ordem), pode usar-se:
-\begin{verbatim}
-    \ntsetup{abstractorder={de={de,en,it}}}
-\end{verbatim}
-
-Relativamente ao seu conteúdo, os resumos não devem ultrapassar uma página e frequentemente tentam responder às seguintes questões (é imprescindível a adaptação às práticas habituais da sua área científica):
-
-\begin{enumerate}
-  \item Qual é o problema?
-  \item Porque é que é um problema interessante/desafiante?
-  \item Qual é a proposta de abordagem/solução?
-  \item Quais são as consequências/resultados da solução proposta?
-\end{enumerate}
-
-% E agora vamos fazer um teste com uma quebra de linha no hífen a ver se a \LaTeX\ duplica o hífen na linha seguinte se usarmos \verb+"-+… em vez de \verb+-+.
-%
-% zzzz zzz zzzz zzz zzzz zzz zzzz zzz zzzz zzz zzzz zzz zzzz zzz zzzz zzz zzzz comentar"-lhe zzz zzzz zzz zzzz
-%
-% Sim!  Funciona! :)
-
-% Palavras-chave do resumo em Português
-% \begin{keywords}
-% Palavra-chave 1, Palavra-chave 2, Palavra-chave 3, Palavra-chave 4
-% \end{keywords}
 \keywords{
-  Primeira palavra-chave \and
-  Outra palavra-chave \and
-  Mais uma palavra-chave \and
-  A última palavra-chave
+  Grandes Modelos de Linguagem\and
+  Sistemas de Informação Geográfica \and
+  Cartografia \and
+  IA Generativa \and
+  RAG
 }
-% to add an extra black line
