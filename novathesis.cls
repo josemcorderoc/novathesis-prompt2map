@@ -281,10 +281,10 @@
 }
 
 \newcommand{\@splitdate}[4]{%
-  % \typeout{PROCESSDATE 1=#1}\PROCESSDATE%
+  % \typeout{PROCESSDATE 1=[#1]}\PROCESSDATE%
   \StrCut{#1}{-}#2\@daterest%
   \StrCut{\@daterest}{-}#3#4%
-  % \typeout{PROCESSDATE 1=#1 Y=#2 M=#3 D=#4}\PROCESSDATEYMD%
+  % \typeout{PROCESSDATE 1=[#1] Y=[#2] M=[#3] D=[#4]}\PROCESSDATEYMD%
 }
 
 \newcommand{\printmonth}[1]{%

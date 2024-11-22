@@ -11,451 +11,115 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
-\prependtographicspath{{Chapters/Figures/Covers/}}
-
-% epigraph configuration
-\epigraphfontsize{\small\itshape}
-\setlength\epigraphwidth{12.5cm}
-\setlength\epigraphrule{0pt}
-
-\includegraphics[width=0.1\linewidth]{NOVAthesisFiles/Images/novathesis-insignia}\hfill
-\includegraphics[width=0.875\linewidth]{NOVAthesisFiles/Images/novathesis-text}
-
-\noindent This is the \gls{novathesis} \LaTeX\ template \ntindex[Template!]{Version} \novathesisversion\ from   {Template!date}\novathesisdate.
-
-\epigraph{
-  This work is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{\LaTeX\ Project Public License v1.3c}.
-  To view a copy of this \ntindex[Template!]{license}, visit the \href{https://www.latex-project.org/lppl/}{LaTeX project public license}.
-}
-
-\section{Welcome to the \novathesis\ Template}
-\label{sec:if_you_use_this_template}
-
-This first Chapter introduces the \gls{novathesis} template and how it is organized. In Chapter~\ref{cha:users_manual} you can find some specific instructions on how to use this template.  Chapter~\ref{cha:a_short_latex_tutorial_with_examples} shows some examples and give some hints on how to write your text. Please read these next Chapters carefully.
-
-\subsection{Your Time is Precious}
-\label{sub:time_is_money}
-
-Did you learn how to drive by sitting by the wheel and throwing your car into the road?  Most probably you did take your time \emph{learning the rules} and \emph{practicing} first! Likewise, it is not wise to throw yourself at the task of writing a thesis/dissertation in \LaTeX\ without seriously considering the following \ntindex{recommendation}!
-
-\begin{tcolorbox}[colback=green!8]
-  If you are going to spend zillions of hours writing your thesis/dissertation using the \gls{novathesis} \LaTeX\ template (or some other \LaTeX\ template), be wise and spend a couple of hours learning how to use it properly by reading its manual.  And then, be even wiser, and spend a few more hours \href{https://github.com/joaomlourenco/novathesis/wiki\#learning-latex}{learning some \LaTeX}.  I am sure that the time you are investing now will pay itself countless times before you submit your thesis/dissertation.\\\parbox{\linewidth}{\raggedleft---~\emph{João Lourenço}}
-\end{tcolorbox}
-
-\subsection{Recognition}
-\label{sub:recognition}
-
-\ntindex[Recognition]{}
-
-The \gls{novathesis} template was born in~1996, and what you see now accumulates to many many hundreds (thousands?!) of working hours, unpaid and stolen from family and friends.  This work is available to the community under the \href{LaTeX project public license}{\LaTeX\ Project Public License v1.3c}, which means you are entitled to use it for free and change it at your will.  However, if you decide to use this template to write your thesis/dissertation, \textbf{be fair to the developers} and:
-\begin{enumerate}
-  \item \ntindex[novathesis!Citation]{} Cite the \gls{novathesis} manual~\cite{novathesis-manual} in a place of your choice (e.g., in the \emph{Acknowledgments}) of your thesis/dissertation with “\verb!\cite{novathesis-manual}!” .  If you cite it this way, the correct entry will be added automatically to your bibliography (no need to worry with the necessary BibTeX entry, as it will be added automatically);
-  \item Go to the
-\href{https://github.com/joaomlourenco/novathesis}{\ntindex[GitHub!project web page]{project web page} in GitHub} and give the project a \ntindex[GitHub!stars]{star} (marked with a red ellipse at the top-right in Figure~\ref{fig:github}); and
-  \item Make a \ntindex[donations]{donation} by visiting the \gls{novathesis} project page and clicking in the button marked with a green ellipse at the top-center in Figure~\ref{fig:github}).  Alternatively, just click \href{https://www.paypal.com/donate/?hosted_button_id=8WA8FRVMB78W8}{\fcolorbox{DarkGreen}{gray!15}{\textbf{~HERE~}}} and your browser will be directed to the right page.
-\end{enumerate}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\linewidth]{github1}
-    \caption{The \gls{novathesis} project web page in GitHub.}
-    \label{fig:github}
-\end{figure}
-
-\section{The \emph{NOVAthesis} Template}
-\label{sec:a_bit_of_history}
-
-\ntindex[Template]{}
-
-The \gls{novathesis} template was born at the \gls{DI} of  \gls{FCT} of \gls{NOVA}, Portugal.  But the user base grew… initially grew to other Departments of FCT-NOVA, then to other Schools of NOVA, and later to other Schools of other Universities.  Currently more than~25 Schools are natively supported by the \gls{novathesis} template (see Tables~\ref{tab:supported_schools_NOVA University Lisbon}, \ref{tab:supported_schools_University of Lisbon}, \ref{tab:supported_schools_University of Minho}, \ref{tab:supported_schools_Instituto Politécnico de Lisboa}, \ref{tab:supported_schools_Instituto Politécnico de Setúbal}, and \ref{tab:supported_schools_Other Universities/Schools/Degrees}).
-
-\newenvironment{ntUniversity}[1]{
-  \renewcommand\tabularxcolumn[1]{m{##1}}% for vertical centering text in X column
-  % \renewcommand\cellgape{\Gape[1cm]}
-  % \setcellgapes{20pt}
-  % \makegapedcells
-  % % \setlength{\extrarowheight}{20pt}
-  % \renewcommand{\arraystretch}{2}
-  \rowcolors{1}{}{GhostWhite}
-    \xltabular{\linewidth}{cX}%
-      \caption{#1's Schools supported by the \gls{novathesis} template\label{tab:supported_schools_#1}}\\
-    \toprule%
-    \rowcolor{Gainsboro}%
-    & \Gape[1.5ex]{\thead[l]{#1}}\\
-    \midrule%
-}{%
-    \bottomrule
-    \endxltabular%
-}
-
-\makeatletter
-\newtoggle{coverspace}
-\newcommand{\docCover}[1]{%
-  \setlength{\fboxsep}{0pt}%
-  \togglefalse{coverspace}%
-    \Gape[1.5ex]{\begin{mcellbox}[cc]
-    \@for\myi:=#1\do{%
-      \fbox{\colorbox{White}{\includegraphics[align=c,width=1.5cm]{1up/\myi}}}%
-        \ifx\@xfor@nextelement\@nnil
-          % last iteration
-        \else
-          % not last iteration
-          \iftoggle{coverspace}{\togglefalse{coverspace}\\\\[-14pt]}{\toggletrue{coverspace}~}%
-        \fi
-  }%
-    \end{mcellbox}}
-}
-\makeatother
-\newcommand{\schlName}[3]{\textbf{#1} (\href{#3}{#2})}
-\newcommand{\degreeName}[3]{\newline\null\quad • #1 \href{#3}{(#2)}}
-
-\begin{ntUniversity}{NOVA University Lisbon}
-  {
-      \docCover{nova-fct-phd-en,nova-fct-msc-en}
-  } &  {
-    \schlName{NOVA School of Science and Technology}{FCT-NOVA}{https://www.fct.unl.pt}
-    \degreeName{All PhD Programs}{PhD}{https://www.fct.unl.pt/en/education/phd-programmes}
-    \degreeName{All MSc Programs}{MSc}{https://www.fct.unl.pt/en/education/master-degrees}
-  }\\
-  {
-      \docCover{nova-fcsh-phd-en,nova-fcsh-msc-en}
-  } &  {
-    \schlName{NOVA School of Social Sciences and Humanities}{FCSH-NOVA}{https://www.fcsh.unl.pt}
-    \degreeName{All PhD Programs}{PhD}{https://www.fcsh.unl.pt/cursos/\#doutoramentos}
-    \degreeName{All MSc Programs}{MSc}{https://www.fcsh.unl.pt/cursos/\#mestrados}
-  }\\
-  {
-      \docCover{nova-ims-phd-en,nova-ims-msc-mmaa-en,%
-                nova-ims-msc-megi-en,nova-ims-msc-mgi-en,%
-                nova-ims-msc-mcsig-en,nova-ims-msc-mgt-en}
-  } &  {
-    \schlName{NOVA Information Management School}{NOVA-IMS}{https://www.novaims.unl.pt}
-    \degreeName{All PhD Programs}{PhD}{https://www.novaims.unl.pt}
-    \degreeName{Master's in Data Science and Advanced Analytics}{MMAA}{https://www.novaims.unl.pt/mdsaa-ba}
-    \degreeName{Master's in in Statistics and Information Management}{MEGI}{https://www.novaims.unl.pt}
-    \degreeName{Master's in Information Management}{MGI}{https://www.novaims.unl.pt}
-    \degreeName{Master's in Geographic Information Systems and Science}{MCSIG}{https://www.novaims.unl.pt/unigis}
-    \degreeName{Master's in Geospatial Technologies}{GeoTech}{https://www.novaims.unl.pt/geotech}
-  }\\
-  {
-      \docCover{nova-ensp-phd-en,nova-ensp-msc-en}
-  } &  {
-    \schlName{National School of Public Heath}{ENSP-NOVA}{https://www.ensp.unl.pt}
-    \degreeName{All PhD Programs}{PhD}{https://www.ensp.unl.pt/courses/phds}
-    \degreeName{All MSc Programs}{MSc}{https://www.ensp.unl.pt/courses/masters}
-  }\\
-  {
-      \docCover{nova-itqb-phd-green-en,nova-itqb-msc-green-en,%
-                nova-itqb-phd-gray-en,nova-itqb-msc-gray-en}
-  } & {
-    \schlName{Instituto de Tecnologia Química e Biológica}{ITQB-NOVA}{https://www.itqb.unl.pt}
-    \degreeName{All PhD Programs}{PhD}{https://www.itqb.unl.pt/education/PhD\%20Programs}
-    \degreeName{All MSc Programs}{MSc}{https://www.itqb.unl.pt/education/masters-courses}
-  }\\
-\end{ntUniversity}
-
-\begin{ntUniversity}{University of Lisbon}
-  {
-    \docCover{ulisboa-ist-phd-en,ulisboa-ist-msc-en}
-  } & {
-    \schlName{Instituto Superior Técnico}{IST-UL}{https://tecnico.ulisboa.pt}
-    \degreeName{All PhD Programs}{PhD}{https://tecnico.ulisboa.pt/en/education/courses/phd-programmes/}
-    \degreeName{All MSc Programs}{MSc}{https://tecnico.ulisboa.pt/en/education/courses/masters-programmes}
-  }\\
-  {
-    \docCover{ulisboa-fc-phd-en,ulisboa-fc-msc-en}
-  } & {
-    \schlName{Faculdade de Ciências}{FCUL}{https://ciencias.ulisboa.pt}
-    \degreeName{All PhD Programs}{PhD}{https://ciencias.ulisboa.pt/en/educational-offer/}
-    \degreeName{All MSc Programs}{MSc}{https://ciencias.ulisboa.pt/en/educational-offer/}
-  }\\
-  {
-    \docCover{ulisboa-fmv-phd-en,ulisboa-fmv-msc-en}
-  } & {
-    \schlName{Faculdade de Medicina Veterinária}{FMV-UL}{https://www.fmv.ulisboa.pt}
-    \degreeName{All PhD Programs}{PhD}{https://www.fmv.ulisboa.pt/en/study/phd}
-    \degreeName{All MSc Programs}{MSc}{https://www.fmv.ulisboa.pt/pt/ensino/mestrados}
-  }\\
-\end{ntUniversity}
-
-
-\newdata*{schlname}
-\newdata*{schlurl}
-\schlname(ea):={School of Architecture}
-\schlurl(ea):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/School-of-Architecture.aspx}
-\schlname(ec):={School of Sciences}
-\schlurl(ec):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-sciences.aspx}
-\schlname(ed):={School of Law}
-\schlurl(ed):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-law.aspx}
-\schlname(ee):={School of Engineering}
-\schlurl(ee):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-Engineering.aspx}
-\schlname(eeg):={School of Economics and Management}
-\schlurl(eeg):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-economics-and-management.aspx}
-\schlname(em):={School of Medicine}
-\schlurl(em):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-Medicine.aspx}
-\schlname(ep):={School of Psychology}
-\schlurl(ep):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-psychology.aspx}
-\schlname(ese):={School of Nursing}
-\schlurl(ese):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-nursing.aspx}
-\schlname(i3b):={Research Institute 13Bs}
-\schlurl(i3b):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/Institute-I3Bs.aspx}
-\schlname(ics):={Institute of Social Sciences}
-\schlurl(ics):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/institute-of-social-sciences.aspx}
-\schlname(ie):={Institute of Education}
-\schlurl(ie):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/institute-of-education.aspx}
-\schlname(elach):={School of Arts and Humanities}
-\schlurl(elach):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-arts-and-humanities.aspx}
-
-
-\begin{ntUniversity}{University of Minho}
-    {
-      \docCover{uminho-ea-phd-en,uminho-ea-msc-en}
-    } & {
-      \schlName{\theschlname(ea)}{\uppercase{ea}-UMINHO}{\theschlurl(ea)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ec-phd-en,uminho-ec-msc-en}
-    } & {
-      \schlName{\theschlname(ec)}{\uppercase{ec}-UMINHO}{\theschlurl(ec)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ed-phd-en,uminho-ed-msc-en}
-    } & {
-      \schlName{\theschlname(ed)}{\uppercase{ed}-UMINHO}{\theschlurl(ed)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ee-phd-en,uminho-ee-msc-en}
-    } & {
-      \schlName{\theschlname(ee)}{\uppercase{ee}-UMINHO}{\theschlurl(ee)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-eeg-phd-en,uminho-eeg-msc-en}
-    } & {
-      \schlName{\theschlname(eeg)}{\uppercase{eeg}-UMINHO}{\theschlurl(eeg)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-em-phd-en,uminho-em-msc-en}
-    } & {
-      \schlName{\theschlname(em)}{\uppercase{em}-UMINHO}{\theschlurl(em)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ep-phd-en,uminho-ep-msc-en}
-    } & {
-      \schlName{\theschlname(ep)}{\uppercase{ep}-UMINHO}{\theschlurl(ep)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ese-phd-en,uminho-ese-msc-en}
-    } & {
-      \schlName{\theschlname(ese)}{\uppercase{ese}-UMINHO}{\theschlurl(ese)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ics-phd-en,uminho-ics-msc-en}
-    } & {
-      \schlName{\theschlname(ics)}{\uppercase{ics}-UMINHO}{\theschlurl(ics)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-ie-phd-en,uminho-ie-msc-en}
-    } & {
-      \schlName{\theschlname(ie)}{\uppercase{ie}-UMINHO}{\theschlurl(ie)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-elach-phd-en,uminho-elach-msc-en}
-    } & {
-      \schlName{\theschlname(elach)}{\uppercase{elach}-UMINHO}{\theschlurl(elach)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-    {
-      \docCover{uminho-i3b-phd-en,uminho-i3b-msc-en}
-    } & {
-      \schlName{\theschlname(i3b)}{\uppercase{i3b}-UMINHO}{\theschlurl(i3b)}
-      \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-      \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-    }\\
-\end{ntUniversity}
-
-
-%
-% % \begin{ntUniversity}{ISCTE — Instituto Universitário de Lisboa}
-% %     \ntSchool{cover-iscteiul-eta-phd}%
-% %              {Escola{ de Tecnologias e Arquitectura};{ETA-ISCTE-IUL};{https://ciencia.iscte-iul.pt/schools/escola-tecnologias-arquitectura}%}
-% % \end{ntUniversity}
-%
-\begin{ntUniversity}{Instituto Politécnico de Lisboa}
-    {
-      \docCover{ipl-isel-msc-en}
-    } & {
-      \schlName{Instituto Superior de Engenharia de Lisboa}{ISEL-IPL}{https://www.isel.pt}
-      \degreeName{All MSc Programs}{MSc}{https://www.isel.pt/candidatos/candidaturas/mestrados}
-    }\\
-\end{ntUniversity}
-
-\begin{ntUniversity}{Instituto Politécnico de Setúbal}
-    {
-      \docCover{ips-ests-msc-en}
-    } & {
-      \schlName{Escola Superior de Tecnologia de Setúbal}{ISEL-IPL}{https://www.estbarreiro.ips.pt}
-      \degreeName{All MSc Programs}{MSc}{https://www.estbarreiro.ips.pt/candidaturas/mestrados}
-    }\\
-\end{ntUniversity}
-
-\begin{ntUniversity}{Other Universities/Schools/Degrees}
-    {
-      \docCover{other-esep-msc-en}
-    } & {
-      \schlName{Escola Superior de Enfermagem do Porto}{ESEP}{https://www.esenf.pt/pt}
-      \degreeName{All MSc Programs}{MSc}{https://estudar.esenf.pt/mestrados}
-    }\\
-\end{ntUniversity}
-
-
-\section{Getting Started}
-\label{sec:getting_started}
-
-The template provides an \emph{easy to use} setting for you to write your thesis/dissertation in \LaTeX:
-\begin{itemize}
-  \item  Select your school;
-  \item Fill your thesis metadata (title, research field, etc) in the file “\texttt{template.tex}”;
-  \item Create your thesis/dissertation contents using the files in folder “\texttt{Chapters}”; and
-  \item Process using you favorite \LaTeX\ processor (pdf\LaTeX, \XeLaTeX\ or \LuaLaTeX).
-\end{itemize}
-
-\subsection{Using Overleaf}
-\label{sub:using_overleaf}
-
-\ntindex[Installation!Overleaf]{}
-\ntindex[Using!Overleaf]{}
-
-\newcommand{\Overleaf}{\href{https://www.overleaf.com?r=f5160636&rm=d&rs=b}{Overleaf}}
-
-\begin{wrapfigure}{r}{0.3\linewidth}
-% \vspace*{-10ex}
-\includegraphics[width=\linewidth]{overleaf}%
-\caption{NOVAthesis template in Overleaf.}
-\label{fig:overleaf}
-\end{wrapfigure}
-\mbox{}\Overleaf\ is a collaborative cloud-based LaTeX editor used for writing, editing and publishing scientific documents. Like “Google Docs”,  for \LaTeX\ users. You can edit and compile your \LaTeX\ source on the cloud, without installing software in your own computer, and, much like \emph{Google Docs}, you can share your document with others users and everybody can edit the same file at the same time (this may be dangerous).
-
-If you do not have an account in \Overleaf, you must \href{https://www.overleaf.com?r=f5160636&rm=d&rs=b}{create one first}.
-
-Once you have an account, please access the \gls{novathesis} template in \href{https://www.overleaf.com/latex/templates/novathesis-v7-dot-1-18/jhqwhtcwbmqc}{Overleaf} and select the green button \emph{Open as Template} (see \Autoref{fig:overleaf}).
-
-\bgroup
-  \itshape
-  Please notice that the version currently available in Overleaf (v7.1.18) is slightly outdated (current version is v\novathesisversion). A new version (v7.1.29) will be submitted to Overleaf soon.  Until then, please:
-  \begin{enumerate}
-    \item Download the \href{https://github.com/joaomlourenco/novathesis/archive/main.zip}{latest version} from the GitHub repository as a Zip file.
-    \item Login to your favorite LaTeX cloud service. I recommend \href{https://www.overleaf.com/?r=f5160636&rm=d&rs=b}{Overleaf} but there are alternatives (these instructions apply to Overleaf and you'll have to adapt for other providers).
-    \item In the menu select: \texttt{New project} $\rightarrow$ \texttt{Upload project}.
-    \item Upload the zip file.
-    \item Select “template.tex” as the main file.
-    \item Let Overleaf compile the document.
-  \end{enumerate}
-\egroup
-
-\begin{tcolorbox}[colback=red!8]
-	Notice that you need a (student) subscription to compile the \novathesis\ template in Overleaf, otherwise your compilation will always time out.
-\end{tcolorbox}
-
-\subsection{Using a Local \LaTeX\ Installation Local}
-\label{sub:using_local_latex}
-
-\ntindex[Installation!Local installation]{}
-\ntindex[Using!Local installation]{}
-
-\begin{wrapfigure}{r}{0.3\linewidth}
-\vspace*{-7ex}
-\includegraphics[width=\linewidth]{github}%
-\caption{The NOVAthesis Project page in GitHub.}
-\label{fig:github2}
-\end{wrapfigure}
-
-First of all, start by installing \LaTeX\ in your computer.  There are two main distributions, \href{https://miktex.org}{\ntindex{\MikTeX}}\ and \href{https://www.tug.org/texlive/}{\ntindex{\TeXLive}}, and both of them are available for the~3 most popular Operating Systems: Linux, macOS and Windows.
-
-Be aware that a full installation of \MikTeX\ or \TeXLive\ will take near~5\,GB of hard disk space.  So, think twice before installing the full distribution.  See the \gls{novathesis} Wiki for the \href{https://github.com/joaomlourenco/novathesis/wiki/installing-latex#minimal-installation-in-any-of-the-systems-above}{list of packages required to compile the template}.
-
-Once you have \LaTeX\ up and running, remember to install a good \LaTeX\ text editor.  I recommend you to take a look at  \href{https://tex.stackexchange.com/questions/339/latex-editors-ides}{this post} in the \url{tex.stackexchange.com} site.  If you want a quick and dirty recommendation, try \href{https://www.texstudio.org/}{\ntindex{TeXStudio}}.
-
-Now, you must access the \gls{novathesis} repository in \href{https://github.com/joaomlourenco/novathesis}{GitHub}, select the green button \emph{Code} and then \emph{download} (or \emph{clone}) the template.  You will always get the latest version of the template (currently v\novathesisversion\ from \novathesisdate).
-
-
-\section{Getting Help}
-\label{sec:getting_help}
-
-\ntindex[Help]{}
-
-No! You don't have to use this template to write your thesis.  You don't even have to use \LaTeX.  However, writing a thesis is serious stuff, and which tool you shall use to write it is not a decision to make lighthearted.
-
-\LaTeX\ is hard enough by itself.  This template aims at making your life easier, but not easy. If you choose to use this template to write your thesis, you are very welcome.  However, don't expect me to provide you help with \LaTeX.  Look for help with your friends (you have some friends, don't you?), or search the web, or try even to read some book(s) on \LaTeX. In the end you will certainly find the experience rewarding.
-
-When you come to the point of “\emph{How do I do this with the \novathesis\ template?}”, remember…
-
-\begin{enumerate}
-  \item To check the \href{https://github.com/joaomlourenco/novathesis/wiki}{\gls{novathesis} wiki} and have some hope!  \emojiSmile
-  \item \href{https://www.google.com}{Google} is your best friend.
-  \item Search the \href{https://github.com/joaomlourenco/novathesis/discussions}{GitHub Discussions page} for a question related to yours.  \emph{If and only if} you don't find one, then post your own question in English please!
-  \item Search the \href{https://www.facebook.com/groups/novathesis}{NOVAtheis Facebook group} for a question related to yours.  \emph{If and only if} you don't find one, then post your own question in either Portuguese or English, at your preference.
-\end{enumerate}
-
-When you post your own question, remember to \textbf{always} state the \gls{novathesis} version number you are using and referring to.
-
-\begin{tcolorbox}[colback=blue!8]
-	\centering
-Please do not attempt to contact me directly (email, Messenger, etc)…\\I WILL NOT REPLY!
-\end{tcolorbox}
-
-
-\subsection{Suggestions, Bugs and Feature Requests} % (fold)
-\label{sub:suggestions_bugs_and_feature_requests}
-
-\begin{description}
-  \item[Help:] If you just need some help, see above \Autoref{sec:getting_help}.
-  \item[Suggestion:] \ntindex[Suggestions]{} Do you have a suggestion/recommendation? Please add it to the wiki and help other users!
-  \item[Bug:] \ntindex[Bugs]{} Did you find a bug? Please open an issue. Thanks!
-  \item[New Feature:] \ntindex[Feature Requests]{} Would you like to request a new feature (or support of a new School)? Please open an issue. Thanks!
-
-\end{description}
-
-
-
-% subsection suggestions_bugs_and_feature_requests (end)
-
-
-
-
-\section{Donors}
-\label{sec:donations}
-
-\ntindex[Donations]{}
-
-The \href{https://github.com/joaomlourenco/novathesis/wiki#donators}{list of \emph{Donnors}} is available in the \gls{novathesis} Project page.
-
-
-\section{Disclaimer}
-\label{sec:disclaimer}
-
-\ntindex[Disclaimer]{}
-
-Although the \gls{novathesis} template is endorsed by some Schools (e.g., \href{https://www.fct.unl.pt/estudante/informacao-academica/teses-e-dissertacoes}{linked from FCT-NOVA web site}), the \gls{novathesis} template \textbf{this not an official template} for any School.
-
-The \gls{novathesis} template exists to make your life easier and we do our best to make it compliant to the supported ($+25$) Schools' regulations but, in the end of the line, you and only you are accountable for both the look and the contents of the document you submit as your thesis/dissertation.
+\section{Motivation}
+
+Geographic Information Systems (GIS) have become indispensable tools in various disciplines, including urban planning, environmental management, public health, and transportation. These systems enable professionals to visualize, analyze, and interpret spatial data, facilitating informed decision-making based on geographic relationships and patterns. Despite the proliferation of GIS technologies and the increasing availability of geospatial data, the process of creating meaningful maps and conducting spatial analyses often remains confined to experts with specialized training. This expertise barrier limits the accessibility and utility of GIS for a broader audience, including policymakers, educators, and the general public \cite{haklay_neogeography_2013}.
+
+The democratization of GIS has been an ongoing pursuit, with efforts focused on making spatial data and mapping tools more accessible to non-specialist users. Advancements in technology, such as web-based GIS platforms and open-source software, have lowered some barriers, allowing users to access spatial data and perform basic analyses without requiring extensive technical knowledge. However, these platforms often still necessitate familiarity with GIS concepts, terminologies, and interfaces, which can be intimidating for those without specialized training. This gap underscores the need for more intuitive and user-friendly interfaces that can cater to a diverse range of users with varying levels of expertise.
+
+Simultaneously, the field of Artificial Intelligence (AI), particularly Natural Language Processing (NLP), has witnessed significant advancements. Large Language Models (LLMs), such as OpenAI's GPT series, have demonstrated remarkable capabilities in understanding and generating human-like text. These models can interpret nuanced queries, generate coherent responses, and perform tasks like code generation and translation. The integration of LLMs with GIS presents an opportunity to bridge the gap between expert GIS practitioners and non-specialist users. By enabling users to interact with GIS platforms through natural language queries, we can lower the barriers to entry, allowing a wider audience to leverage spatial data for various purposes.
+
+Such integration could revolutionize how users access, analyze, and visualize geospatial information, making GIS more inclusive and user-friendly. For instance, policymakers could generate complex spatial analyses without needing to write queries in technical language or manipulate GIS software interfaces manually. Educators could create interactive maps for teaching purposes with simple verbal instructions, enhancing the learning experience for students. Additionally, the general public could engage with spatial data to better understand community planning initiatives, environmental changes, and public health trends.
+
+However, this integration is not without challenges. Accurately interpreting natural language queries in a geospatial context requires the LLM to comprehend spatial concepts, relationships, and terminologies. Ensuring that the system retrieves the correct data and generates accurate maps is critical to maintaining trust and utility. Ethical considerations, including data privacy, trustworthiness, and potential biases, must also be addressed to ensure responsible deployment. Misinterpretations of queries could lead to incorrect data retrieval and misleading visualizations, which could have serious implications in fields like public health or urban planning.
+
+This thesis proposes the development of Prompt2Map, a system that leverages LLMs to convert natural language queries into interactive web maps. The system aims to facilitate geospatial data retrieval and map generation, making GIS more accessible to non-expert users. Through this work, we seek to contribute to ongoing efforts to democratize GIS and explore the intersection of AI and geospatial technologies. By addressing both technical and ethical challenges, Prompt2Map aspires to provide a reliable and user-friendly tool that empowers a diverse range of users to engage with spatial data effectively.
+
+\section{Objectives}
+
+The objectives of this thesis are threefold. First, to develop the Prompt2Map system, which is capable of converting natural language queries into interactive web maps by leveraging LLMs in conjunction with geospatial data retrieval techniques. The system should be able to interpret a wide range of queries, retrieve relevant data from various sources, and generate accurate and informative maps. This involves integrating advanced NLP capabilities with robust data processing and visualization tools to create a seamless user experience.
+
+Second, to evaluate the effectiveness of Prompt2Map through a series of validation tests using synthetic prompts tailored to specific datasets. The evaluation will analyze metrics such as accuracy in data retrieval and map generation. This comprehensive evaluation aims to ensure that the system meets its performance goals and can handle diverse user needs and data complexities.
+
+Third, to analyze the ethical implications associated with using LLMs for map generation. This includes issues of data privacy, potential biases in data and algorithms, alignment with user intent, risks of misinformation, and the potential for misuse. Strategies for mitigating these risks will be proposed and integrated into the system design. Ensuring ethical integrity is paramount to maintaining user trust and preventing harmful outcomes resulting from AI-generated maps.
+
+By achieving these objectives, the thesis aims to contribute to making GIS tools more accessible and user-friendly, fostering greater engagement with spatial data among non-specialists, and promoting responsible use of AI in geospatial applications.
+
+\section{Thesis Structure}
+
+The thesis is organized into six chapters. The introduction provides the motivation for the study, outlines the objectives, and summarizes the thesis structure. The background chapter reviews the evolution of GIS towards greater accessibility, discusses the role of neogeography and self-service GIS platforms, introduces LLMs in the context of GIS, and addresses ethical considerations related to AI-generated maps.
+
+The methods chapter details the system architecture of Prompt2Map, describes the datasets used for evaluation, and outlines the methodologies for system testing and ethical assessment. It delves into the technical aspects of how natural language queries are processed, data is retrieved, and maps are generated, providing a comprehensive overview of the system's components and workflows.
+
+The results chapter presents the outcomes of validation tests, showcasing the system's ability to generate maps from natural language queries. It analyzes system performance in terms of accuracy, response time, and scalability, supported by various figures and tables that illustrate the findings. This chapter provides empirical evidence of the system's effectiveness and identifies areas where it excels or requires improvement.
+
+The discussion interprets the findings, discusses the system's effectiveness in meeting its objectives, explores ethical implications, and identifies limitations and areas for improvement. It contextualizes the results within the broader landscape of GIS and AI, offering insights into how Prompt2Map contributes to the field and what future developments could enhance its capabilities.
+
+Finally, the conclusions summarize the key findings, highlight the contributions to the fields of GIS and AI, discuss potential future work, and reflect on the broader impact of natural language interfaces in GIS. This chapter synthesizes the research, drawing connections between the objectives, methods, and results, and proposing directions for future exploration and innovation.
+
+\section{Background}
+
+\subsection{Democratization of GIS}
+
+Geographic Information Systems have evolved significantly since their inception, transitioning from specialized tools used primarily by experts to more widely accessible platforms. Initially, GIS required substantial technical expertise, including knowledge of programming, database management, and spatial analysis techniques. The steep learning curve and high costs associated with GIS software limited its use to specific professional domains.
+
+Advancements in technology and the proliferation of geospatial data have catalyzed the democratization of GIS. The development of user-friendly interfaces, open-source GIS software (e.g., QGIS), and web-based platforms (e.g., ArcGIS Online) has lowered barriers to entry. These tools have enabled a broader audience to engage with spatial data, perform basic analyses, and create maps without requiring extensive technical training. The increasing availability of high-quality geospatial data, coupled with more intuitive tools, has empowered non-specialist users to harness the power of GIS for various applications, from community planning to environmental monitoring.
+
+The concept of neogeography emerged as individuals outside traditional geographic professions began using mapping tools for personal and community projects. Goodchild describes neogeography as the use of geographical techniques by non-expert users for non-professional purposes \cite{goodchild_neogeography_2009}. This movement has been facilitated by platforms like  OpenStreetMap, which allow users to contribute to and utilize geospatial information collaboratively. Neogeography has expanded the scope of GIS, enabling everyday users to participate in mapping activities, share spatial data, and contribute to collective knowledge bases. This participatory approach has democratized map-making, making it a communal and accessible activity.
+
+Despite these advancements, a gap persists between the capabilities of expert GIS practitioners and those accessible to non-specialists. Complex spatial analyses, custom data queries, and advanced cartographic designs often remain beyond the reach of general users. This gap underscores the need for innovative approaches to further democratize GIS, making advanced functionalities more accessible and intuitive. Enhancing user interfaces, integrating intelligent assistants, and leveraging AI-driven tools are potential strategies to bridge this gap \cite{Frez2023252}, enabling a wider audience to perform sophisticated GIS tasks without specialized training.
+
+\subsection{Self-Service GIS}
+
+Self-service GIS platforms represent an important step toward making GIS more user-friendly. These platforms provide tools that simplify spatial data analysis and map creation through intuitive interfaces, often featuring drag-and-drop functionalities, guided workflows, and pre-configured templates \cite{rowland_towards_2020}. Users can perform tasks such as data visualization, basic spatial analysis, and thematic mapping without deep technical knowledge. By abstracting the complexity of GIS operations, self-service platforms enable users to focus on their specific analytical needs and visualization preferences.
+
+However, self-service GIS platforms have limitations. They may not fully accommodate the diverse and complex needs of users, especially when dealing with sophisticated analyses or custom data queries. Users still need to understand GIS concepts, data structures, and the specific functionalities of the platform. The interfaces may not be flexible enough to handle unique or nuanced user requests. For instance, advanced spatial analyses like network analysis, spatial interpolation, or multi-criteria decision analysis often require specialized tools and a deeper understanding of GIS methodologies, which are not typically supported by self-service platforms.
+
+To overcome these limitations, integrating natural language interfaces into GIS platforms has been proposed. Natural language interfaces allow users to interact with systems using everyday language, potentially reducing the learning curve and making GIS functionalities more accessible. By expressing queries and commands in natural language, users can bypass complex menus and technical commands. This approach leverages the advancements in NLP and AI to create more intuitive and responsive GIS tools that can cater to a wider range of user needs and expertise levels. Natural language interfaces can facilitate more dynamic and conversational interactions with GIS systems, enabling users to ask complex questions and receive immediate, contextually relevant responses.
+
+\subsection{Large Language Models in GIS}
+
+Large Language Models have revolutionized the field of NLP, offering new ways to interpret and generate human-like text. Models like GPT-4 have been trained on extensive datasets encompassing a wide range of topics, enabling them to understand context, disambiguate meanings, and generate coherent responses. These models excel at tasks such as language translation, text summarization, and question-answering, demonstrating a high level of proficiency in understanding and generating natural language.
+
+In the context of GIS, LLMs can serve as intermediaries between the user and the system, interpreting natural language queries and translating them into actions that the GIS platform can execute. For example, a user could input a query like "Show me the areas in Lisbon with the highest unemployment rates," and the LLM would process this request, retrieve the relevant data, and generate the appropriate map. 
+
+Furthermore, the concept of Retrieval-Augmented Generation (RAG) enhances LLM capabilities by combining retrieval mechanisms with generation. In a RAG system, the LLM retrieves relevant information from external data sources to inform its responses \cite{fan_survey_2024}. In GIS applications, RAG can enable the system to access geospatial databases dynamically, allowing for up-to-date and context-specific map generation. This approach ensures that the system can provide accurate and relevant visualizations based on the most current and pertinent data, enhancing the overall utility and reliability of the GIS platform.
+
+Literature on the application of LLMs in GIS showcases various use cases where AI-driven natural language interfaces have significantly improved user interaction and data analysis capabilities. For instance, studies have explored how LLMs can assist in automated map generation and interactive spatial querying \cite{wang_gpt_2024}. These applications demonstrate the potential of LLMs to transform traditional GIS workflows, making spatial data analysis more efficient and accessible. Additionally, research has highlighted the benefits of integrating LLMs with GIS for educational purposes, allowing students to engage with spatial data through conversational interfaces and enhancing their learning experiences \cite{Mooney202385, Redican2024}.
+
+Moreover, advancements in function calling and tool integration with LLMs have opened new avenues for enhancing GIS functionalities \cite{qu2024toolsurvey}. Function calling enables LLMs to execute specific functions or access external tools based on user queries, thereby extending the capabilities of the GIS platform beyond standard data retrieval and visualization tasks. This integration facilitates more sophisticated spatial analyses and dynamic map generation, catering to a broader range of user needs and enhancing the overall user experience.
+
+\subsection{Retrieval-Augmented Generation}
+
+
+Traditional RAG systems primarily rely on semantic proximity through embeddings to retrieve relevant documents or text snippets from large corpora. These systems encode both queries and documents into high-dimensional vector spaces, enabling the identification of semantically similar content based on their proximity in the embedding space \cite{gao_retrieval-augmented_2024}. This approach is effective for tasks such as question-answering and information retrieval, where the goal is to provide contextually relevant textual information to the user. 
+
+In the context of geospatial data, RAG holds significant potential. Geospatial information is inherently dynamic, with frequent updates and changes in data due to various factors such as urban development, environmental changes, and demographic shifts. RAG allows GIS systems to access and incorporate the most recent data, ensuring that the generated maps and analyses reflect the current state of the spatial environment. This is crucial for applications that rely on real-time or near-real-time data, such as disaster management, traffic analysis, and environmental monitoring.
+
+The state-of-the-art in RAG involves sophisticated retrieval algorithms and indexing techniques that enable efficient access to vast amounts of data. Advances in vector-based retrieval, where data is represented in high-dimensional vector spaces, have significantly improved the speed and accuracy of information retrieval in RAG systems \cite{gao_retrieval-augmented_2024}. Additionally, the integration of RAG with transformer-based architectures has enhanced the model's ability to understand and leverage retrieved information effectively, leading to more coherent and contextually appropriate responses.
+
+\subsection{Text-to-SQL}
+
+Structured Query Language (SQL) is a standardized programming language specifically designed for managing and manipulating relational databases. It provides a robust framework for performing a wide array of operations, including querying data, updating records, inserting new information, and deleting existing entries. SQL's declarative syntax allows users to specify what data they need without detailing the exact procedures to retrieve it, thereby simplifying complex data interactions. This language is fundamental for data analysts, database administrators, and applications that require efficient and precise data management. In the context of Geographic Information Systems, SQL is often extended with spatial functions that enable the querying and analysis of geospatial data, facilitating tasks such as spatial joins, proximity searches, and geographic aggregations.
+
+%The task of translating natural language to database SQL queries is well-established in NLP, known as text-to-SQL. This task involves converting a natural language statement into a SQL query that can be executed against a database. Numerous benchmarks and datasets, such as Spider  and WikiSQL [@zhongSeq2SQL2017], have been developed to evaluate and improve models' performance on text-to-SQL tasks [@paperswithcode_text-to-sql]. These benchmarks provide standardized datasets and evaluation metrics that facilitate the training and assessment of models designed to perform text-to-SQL translation, ensuring that the models can handle a wide range of query complexities and database schemas.
+
+The task of translating natural language to database SQL queries is well-established in NLP, known as text-to-SQL. This task involves converting a natural language statement into a SQL query that can be executed against a database. Modern text-to-SQL models leverage deep learning architectures, particularly transformer-based models, which excel at capturing the complex relationships between language and database schemas. These models are trained on large datasets that pair natural language questions with their corresponding SQL queries, enabling them to learn the patterns and structures necessary for accurate translation. Techniques such as schema linking, where the model identifies and aligns entities in the natural language query with database schema elements, have been instrumental in improving performance \cite{li2024pet}. In addition to handling simple queries, state-of-the-art text-to-SQL models are capable of managing complex queries involving multiple tables, nested subqueries, and advanced SQL functions. 
+
+LLMs' ability to perform text-to-SQL translation can be harnessed in GIS to facilitate data retrieval. By integrating LLMs with GIS databases, users can query spatial data using natural language, and the system can generate the corresponding SQL queries to retrieve the data. This integration simplifies the data retrieval process, making it more accessible to users who may not have expertise in SQL or database management. Additionally, it allows for more dynamic and flexible querying capabilities, enabling users to perform complex spatial analyses through simple verbal instructions.
+
+\subsection{Function Calling}
+
+Function calling in LLMs refers to the capability of language models to invoke specific functions or access external tools based on the context of the input they receive. This feature extends the functionality of LLMs beyond text generation, allowing them to interact with external systems, perform computations, and access specialized tools dynamically. Function calling is a crucial advancement in the development of intelligent assistants, enabling more interactive and context-aware responses.
+
+Function calling works by informing the model about the available external functions, including their names, descriptions, and expected parameters. When the model identifies a need to perform a specific task that aligns with an available function, it generates a function call with the appropriate arguments. This call is then executed by the system, and the results are incorporated into the model's response. The process ensures that the model's outputs adhere to the constraints and requirements of the external tools, enhancing the reliability and accuracy of the responses.
+
+In the context of GIS, function calling enables the integration of specialized mapping and spatial analysis functions. For instance, when a user requests the generation of a choropleth map based on certain criteria, the LLM can invoke a predefined mapping function with the necessary parameters, such as data layers, color schemes, and attribute values. This automation streamlines the map creation process, allowing users to generate complex visualizations with simple natural language commands.
+
+Function calling also facilitates the extension of the system's capabilities without necessitating continuous retraining of the LLM. As new functions are developed or existing ones are updated, they can be integrated into the system's function library, and the LLM can be instructed to utilize them as needed. This modular approach ensures that Prompt2Map remains adaptable and can incorporate advanced GIS functionalities seamlessly, catering to evolving user needs and technological advancements.
+
+Moreover, function calling enhances the system's ability to maintain consistency and standardization in map generation. By relying on predefined functions with well-defined parameters, the system ensures that the generated maps adhere to specific cartographic principles and visualization standards. This consistency is crucial for producing reliable and professional-quality maps that meet user expectations and project requirements. Additionally, the use of predefined functions facilitates replicability, as the same functions can be invoked with identical parameters to reproduce maps under similar conditions. This replicability is essential for verifying results, conducting comparative analyses, and ensuring that map generation processes can be reliably repeated in future applications.
+
+\subsection{Ethical Considerations}
+
+The deployment of LLMs in GIS introduces several ethical considerations that must be addressed to ensure responsible use. These include bias and fairness, data privacy, accuracy and misuse, and trustworthiness and reproducibility.
+
+Bias and fairness are significant concerns, as LLMs are trained on large corpora of text that may contain biases reflecting societal prejudices. Such biases can manifest in the model's outputs, potentially leading to unfair or discriminatory results \cite{wang_aligning_2023, gallegos_bias_2024}. In GIS, this could result in biased data retrieval or misrepresentation of certain areas or populations. Mitigating bias requires careful dataset selection, bias detection and correction mechanisms, and continuous monitoring of system outputs.
+
+Data privacy is critical, especially since geospatial data often includes sensitive information, particularly when dealing with demographic data at granular levels. Protecting user privacy and complying with data protection regulations, such as the General Data Protection Regulation (GDPR), is essential. Systems must implement measures to anonymize personal data, secure data storage and transmission, and ensure that sensitive information is not inadvertently disclosed.
+
+Accuracy and the potential for misuse are also important ethical considerations. LLMs can generate incorrect or misleading information, known as hallucinations, where the model produces plausible but false outputs \cite{shuster_retrieval_2021}. In GIS applications, inaccuracies in data retrieval or map generation can have significant consequences, potentially leading to incorrect conclusions or decisions. There is also a risk of misuse, where the system could be employed to generate maps that infringe on privacy, security, or propagate misinformation. Implementing validation checks, transparency measures, and usage policies can help mitigate these risks.
+
+Trustworthiness and reproducibility are crucial for users to rely on AI-generated maps. The system must be transparent about how outputs are produced and allow for reproducibility of results \cite{Li20234668, zhang_ethics_2023, wang_gpt_2024} Providing access to information about data sources, processing methods, and limitations enables users to understand and verify the results.
+
+Addressing these ethical considerations is essential for the responsible deployment of LLM-integrated GIS systems. By proactively identifying potential risks and implementing mitigation strategies, the system can enhance trust, fairness, and reliability.
