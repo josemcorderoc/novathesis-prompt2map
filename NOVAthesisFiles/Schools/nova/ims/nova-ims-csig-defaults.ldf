@@ -192,6 +192,7 @@
   % \preto{\chapterheadstart}{{\noindent\newsgottbf\Large\thedoctitle(\@LSHORT,main)}}%
   \preto{\chapterheadstart}{\vspace*{-2cm}}%
   \appto{\chaptitlefont}{\centering}%
+  \selectlanguage{\@LANG@COVER}%
 }
 \NTAddToHook{abstract/mid}{%
   % \let\oldchapterheadstart=\chapterheadstart%
@@ -202,6 +203,7 @@
 }
 \NTAddToHook{abstracts/pre}{%
   \let\oldchapterheadstart=\chapterheadstart%
+  \selectlanguage{\@LANG@COVER}%
 }
 \NTAddToHook{abstracts/post}{%
   \let\chapterheadstart=\oldchapterheadstart%
