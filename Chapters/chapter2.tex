@@ -8,8 +8,8 @@
 
 \typeout{NT FILE chapter2.tex}%
 
-\chapter{Data and methods}
-\label{cha:data_and_methods}
+\chapter{Methods}
+\label{cha:methods}
 
 \section{System Architecture}
 
@@ -110,7 +110,7 @@ Evaluating the performance of Prompt2Map poses several challenges due to the sys
 
 Nevertheless, for the scope of this thesis, the evaluation focuses on the text-to-SQL translation component of Prompt2Map, which corresponds to the Geospatial Retriever in the system architecture. This evaluation aims to assess the system's ability to accurately interpret natural language queries, generate SQL statements that retrieve relevant geospatial data, and execute these queries against the geospatial database. The evaluation of the Map Generator component, which involves the creation of interactive web maps based on the retrieved geospatial data, is more subjective and user-dependent, making it challenging to define objective metrics. Therefore, the focus of this evaluation is on the Geospatial Retriever, which forms the foundation of the system's functionality.
 
-
+% TODO: Question table
 \subsection{Metrics}
 
 Two main metrics are used to evaluate the Prompt2Map performancce: Soft F1-score and Consistency Score.
@@ -157,3 +157,6 @@ Mode frequency: frequency of the most frequent item
     \text{Mode Frequency (X)} = \frac{\text{Number of occurrences of the mode}}{\text{Total number of runs}} = \frac{\max_{x \in X} \text{count}(x)}{|X|}
 \end{equation}
 
+
+% TODO: Explicar como voy a agregar los datos (Macro F1) y la consistencia (entropía y frecuencia de la moda)
+% TODO: Evaluation questions table
