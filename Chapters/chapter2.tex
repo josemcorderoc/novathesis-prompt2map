@@ -17,7 +17,14 @@ The Prompt2Map system is designed to convert natural language queries into inter
 
 The system workflow involves several key steps. When a user inputs a natural language query expressing their mapping needs, the Geospatial Retriever interprets the query and retrieves relevant geospatial data from the data source. Subsequently, the Map Generator transforms the retrieved data and the user's intent into an interactive web map. [Figure @fig:syscomp] shows this process in detail.
 
-%![System components](./figs/syscomp.pdf){#fig:syscomp}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{syscomp}
+    \caption{System logical architecture}
+    \label{fig:system_logical_architecture}
+  \end{figure}
+
 
 \subsection{Geospatial Retriever}
 
@@ -56,10 +63,8 @@ The LLM analyzes the metadata of the retrieved data, including geometry types, a
 The mapping function is executed to render the interactive web map. The system employs web mapping libraries such as Leaflet or Plotly, which support interactive features and responsive design. The final map allows users to interact with the data, providing functionalities like zooming, panning, clicking on features to display attribute information, and toggling layers on and off.
 
 \section{Implementation}
-%The logical design described in the previous section was implemented as an open-source Python package, available via Python Package Index (PyPI)[^1] and Github[^2]. [Figure @fig:codeimp] shows a Unified Modeling Language (UML) diagram with the project classes and their dependencies.
 
-%[^1]: \url{https://pypi.org/project/prompt2map/}
-%[^2]: \url{https://github.com/josemcorderoc/prompt2map}
+The logical design described in the previous section was implemented as an open-source Python package, available via Python Package Index (PyPI)\footnote{\url{https://pypi.org/project/prompt2map/}} and  Github\footnote{\url{https://github.com/josemcorderoc/prompt2map}}. [Figure @fig:codeimp] shows a Unified Modeling Language (UML) diagram with the project classes and their dependencies.
 
 %![UML class diagram of Prompt2Map implementation in Python](./figs/code_implementation.pdf){#fig:codeimp}
 
@@ -67,7 +72,7 @@ The implementation of Prompt2Map follows a modular architecture, organized into 
 
 This approach ensures that the core business logic remains unaffected by changes in external systems or technologies. Specifically, Prompt2Map defines interfaces such as GeoDatabase, Embedding, and LLM within the interfaces module, which outline the essential functionalities required by the application. The providers module contains concrete implementations like GeoDuckDB and OpenAIProvider, which fulfill these interfaces. This modular structure offers significant advantages, including ease of maintenance, scalability, and flexibility. For instance, integrating support for a different geospatial database, such as PostgreSQL with PostGIS, would simply involve creating a new class that implements the GeoDatabase interface without altering the core application logic. This decoupling facilitates adaptability to evolving technological landscapes and simplifies the extension of system capabilities.
 
-Python serves as the primary programming language for implementing Prompt2Map, chosen for its versatility, extensive library support, and strong presence in both the AI and geospatial communities. Python’s rich ecosystem includes powerful libraries like GeoPandas, which extends Pandas to enable spatial operations on geospatial data, making it an ideal tool for managing and analyzing geographic information within the system.
+Python serves as the primary programming language for implementing Prompt2Map, chosen for its versatility, extensive library support, and strong presence in both the AI and geospatial communities. Python's rich ecosystem includes powerful libraries like GeoPandas, which extends Pandas to enable spatial operations on geospatial data, making it an ideal tool for managing and analyzing geographic information within the system.
 
 \subsection{Application}
 The application component constitutes the core functionality of the prompt2map package, orchestrating the end-to-end process of converting natural language queries into interactive web maps. This component is responsible for managing the workflow from query interpretation to data retrieval and finally to map generation. By leveraging the abstract interfaces defined within the interfaces module and utilizing the concrete implementations provided by the providers, the application layer ensures seamless interaction between different system modules. This modular approach not only enhances the system's scalability but also facilitates easier maintenance and future enhancements.
@@ -127,6 +132,8 @@ There are multiple benchmarks for text-to-SQL evaluation, such as Spider \cite{y
 
 However, those metrics have limitations that can lead to biased results and inaccurate performance assessments (Lopez). While EM evaluates the syntax-level equivalence of queries, it often leads to high false negative rates, as the same logical intent can be represented through various query structures and alises. On the other hand, EX focuses on the execution results of the generated queries, providing a more robust evaluation metric. However, EX is not without its limitations, as it can produce false positives when incorrect queries yield correct results, and false negatives when extra fields are included in the output.
 
+\subsubsection{Soft F1-Score}
+
 The hardness of EM and EX is that both require exact matches between the generated SQL query and the ground truth. This is a very strict requirement, as even small variations in the generated query can lead to a mismatch. To address this issue, the Soft F1-score was introduced as a more lenient evaluation metric that considers the data similarity between the generated and ground truth queries. 
 
 The original F1-score is a metric commonly used in classification tasks to balance the model's ability to correctly identify positive samples (precision) and to capture all positive samples (recall).
@@ -134,6 +141,10 @@ The original F1-score is a metric commonly used in classification tasks to balan
 \begin{equation}
     F1 = 2 \times \frac{precision \times recall}{precision + recall}
 \end{equation}
+
+TODO add figure of F1 score in SQL
+
+
 
 \subsubsection{Consistency}
 
@@ -160,3 +171,100 @@ Mode frequency: frequency of the most frequent item
 
 % TODO: Explicar como voy a agregar los datos (Macro F1) y la consistencia (entropía y frecuencia de la moda)
 % TODO: Evaluation questions table
+
+\subsection{Evaluation Questions}
+
+The metrics presented in the previous section are used to evaluate the performance of the Prompt2Map system across a series of evaluation questions. These questions are designed to test the system's ability to accurately interpret natural language queries, generate SQL statements that retrieve relevant geospatial data, and execute these queries against the geospatial database. By evaluating the system's performance on a diverse set of queries, we can assess its effectiveness in handling various types of user inputs and producing accurate and informative maps.
+
+Each question is accompanied by the expected SQL query, which serves as the ground truth for evaluating the system's performance. The evaluation questions are designed to test the system's ability to handle different types of queries, including aggregation, filtering, and spatial analysis tasks. By evaluating the system's performance on these questions, we can gain insights into its strengths and limitations, identify areas for improvement, and guide future development efforts.
+
+{\scriptsize
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  language=SQL,
+  basicstyle=\ttfamily\scriptsize, % set font size to small
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  numbers=none,
+  frame=none,
+  showstringspaces=false,
+  columns=flexible,
+  breaklines=true
+}
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{|p{0.05\textwidth}p{0.3\textwidth}p{0.55\textwidth}|}
+    \caption{Test results summary.}
+    \label{tab:evaluation_questions}\\
+    \toprule
+    \rowcolor{Gainsboro}%
+    \textbf{ID} & \textbf{Question} & \textbf{Expected SQL} \\
+    \midrule
+1 & Which Freguesias have the highest percentage of buildings constructed before 1945? & \lstinline!SELECT c."Freguesia",
+(c."N_EDIFICIOS_CONSTR_ANTES_1919" + c."N_EDIFICIOS_CONSTR_1919A1945") / (c."N_EDIFICIOS_CLASSICOS") * 100 AS percentage,
+c."geometry"
+FROM censo2021pt.censo2021_freguesia c
+ORDER BY percentage DESC;! \\
+2 & How does the absolute distribution of one- or two-floor buildings vary across Municipios? & \lstinline!SELECT c."Municipio",
+       SUM(c."N_EDIFICIOS_1OU2_PISOS") AS building_count,
+       ST_Union(c."geometry") AS geometry
+FROM censo2021pt.censo2021_freguesia c
+GROUP BY c."Municipio"! \\
+3 & In which Distritos is the absolute number of single-family or two-family homes highest? & \lstinline!SELECT c."Distrito",
+       SUM(c."N_EDIFICIOS_CLASSICOS_1OU2_ALOJ") AS single_family_homes,
+       ST_Union(c."geometry") AS geometry
+FROM censo2021pt.censo2021_freguesia c
+GROUP BY c."Distrito"
+ORDER BY single_family_homes DESC;! \\
+4 & What is the ratio of rented housing to owned housing in different Freguesias? & \lstinline!SELECT c."Freguesia",
+       (c."N_RHABITUAL_ARRENDADOS") / (c."N_RHABITUAL_PROP_OCUP") AS rent_own_ratio,
+       c."geometry"
+FROM censo2021pt.censo2021_freguesia c
+ORDER BY rent_own_ratio DESC;! \\
+5 & What percentage of buildings are constructed with three or more apartments in each Freguesia? & \lstinline!SELECT c."Freguesia",
+       (c."N_EDIFICIOS_CLASSICOS_3OUMAIS_ALOJ" / c."N_EDIFICIOS_CLASSICOS") * 100 AS multi_family_density,
+       c."geometry"
+FROM censo2021pt.censo2021_freguesia c
+ORDER BY multi_family_density DESC;! \\
+6 & Which Municipios have the highest proportion of individuals aged 65 or older? & \lstinline!SELECT c."Municipio",
+       SUM(c."N_INDIVIDUOS_65_OU_MAIS") / SUM(c."N_INDIVIDUOS") * 100 AS age_65_plus_percentage,
+       ST_Union(c."geometry") AS geometry
+FROM censo2021pt.censo2021_freguesia c
+GROUP BY c."Municipio"
+ORDER BY age_65_plus_percentage DESC;! \\
+7 & Which Freguesias have the highest male-to-female ratio in the population? & \lstinline!SELECT c."Freguesia",
+       (c."N_INDIVIDUOS_H" / NULLIF(c."N_INDIVIDUOS_M", 0)) AS male_to_female_ratio,
+       c."geometry"
+FROM censo2021pt.censo2021_freguesia c
+ORDER BY male_to_female_ratio DESC;! \\
+8 & Where are parking-accessible residential accommodations more common across Municipios relative to all residences? & \lstinline!SELECT c."Municipio",
+       SUM(c."N_RHABITUAL_COM_ESTACIONAMENTO") / SUM(c."N_CLASSICOS_RES_HABITUAL") * 100 AS parking_accessible,
+       ST_Union(c."geometry") AS geometry
+FROM censo2021pt.censo2021_freguesia c
+GROUP BY c."Municipio"
+ORDER BY parking_accessible DESC;! \\
+9 & What is the percentage of individuals with no formal education across Distritos? & \lstinline!SELECT c."Distrito",
+       SUM(c."N_INDIVIDUO_ENSINCOMP_NENHUM") / SUM(c."N_INDIVIDUOS") * 100 AS no_education_percentage,
+       ST_Union(c."geometry") AS geometry
+FROM censo2021pt.censo2021_freguesia c
+GROUP BY c."Distrito"
+ORDER BY no_education_percentage DESC;! \\
+10 & In which Freguesias is the unemployment rate highest? & \lstinline!SELECT c."Freguesia",
+       ((c."N_INDIVIDUOS_DESEMPREGADOS_1EMP" + c."N_INDIVIDUOS_DESEMPREGADOS_NOVOEMP") / NULLIF(c."N_INDIVIDUOS_COM_ATIVIDADE_ECONOMICA", 0)) * 100 AS unemployment_rate,
+       c."geometry"
+FROM censo2021pt.censo2021_freguesia c
+ORDER BY unemployment_rate DESC;! \\
+    \bottomrule
+\end{xltabular}
+\egroup
+}
+
+
+
+\lipsum[1-2]

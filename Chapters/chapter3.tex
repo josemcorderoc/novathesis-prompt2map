@@ -11,9 +11,43 @@
 \chapter{Results}
 \label{cha:results}
 
-\lipsum[1-10]
+% Added introduction to the Results section
+The Results section presents the aggregated data from the conducted experiments. Table \ref{tab:results} summarizes the key metrics evaluated for each question ID. Full 
 
+       {\small
+
+
+        \bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{ccccccc}
+    \caption{Test results summary.}
+    \label{tab:results}\\
+    \toprule
+    \rowcolor{Gainsboro}%
+    \textbf{\shortstack{Question \\ ID}} & \textbf{\shortstack{Completion \\ Rate}} & \textbf{\shortstack{Macro \\ Precision}} & \textbf{\shortstack{Macro \\ recall}} & \textbf{\shortstack{Macro \\ Soft F1-score}} & \textbf{\shortstack{Frequency \\ of the mode}} & \textbf{\shortstack{Consistency \\ Entropy}} \\
+    \midrule
+       1 & 100\% & 0.9988 & 0.9988 & 0.9988 & 1.0000 & 1.0000 \\
+       2 & 100\% & 0.9667 & 0.8722 & 0.8772 & 0.9000 & 0.5310 \\
+       3 & 90\% & 0.8831 & 0.7537 & 0.7680 & 0.5556 & 0.1472 \\
+       4 & 100\% & 0.9630 & 0.9630 & 0.9630 & 1.0000 & 1.0000 \\
+       5 & 100\% & 0.9316 & 0.9165 & 0.9187 & 0.9000 & 0.5310 \\
+       6 & 100\% & 0.9672 & 0.9081 & 0.9367 & 1.0000 & 1.0000 \\
+       7 & 100\% & 0.9988 & 0.9988 & 0.9988 & 1.0000 & 1.0000 \\
+       8 & 100\% & 0.7737 & 1.0000 & 0.8516 & 0.5000 & 0.0628 \\
+       9 & 100\% & 0.8202 & 0.9907 & 0.8858 & 0.4000 & 0.1390 \\
+       10 & 100\% & 0.9588 & 0.9988 & 0.9738 & 0.9000 & 0.5310 \\
+
+    \bottomrule
+    \end{xltabular}
+\egroup
+}
+
+% Added interpretation of the results
+The table highlights that most question IDs maintain a high completion rate and macro F1 scores, indicating consistent performance. Notably, Question ID 3 exhibits a lower completion rate and macro recall, suggesting areas for improvement in that category. 
 
 % TODO: Main results table
+% \begin{newpdflayout}{210mm}{297mm}%{420mm}
+       
+       
+% \end{newpdflayout}
 
-% TODO: Most common map for each question

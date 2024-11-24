@@ -75,8 +75,8 @@
     {\ntaddlistof{listofalgorithms}}{}   % The List of Algorithms for Algorithm2e
 \@ifpackageloaded{algorithms}    % The List of Algorithms for package “algorithms”.
     {\ntaddlistof{lstlistoflistings}}{}
-\@ifpackageloaded{listings}      % The List of Listings for package “listings”.
-    {\ntaddlistof{lstlistoflistings}}{}
+% \@ifpackageloaded{listings}      % The List of Listings for package “listings”.
+%     {\ntaddlistof{lstlistoflistings}}{}
 \@ifpackageloaded{minted}        % The List of Listings for the “minted” package.
     {\ntaddlistof{listoflistings}}{}
 }
