@@ -15,7 +15,7 @@
 
 The Prompt2Map system is designed to convert natural language queries into interactive web maps by integrating LLMs with geospatial data retrieval and mapping functionalities. The system architecture comprises two main components: the Geospatial Retriever and the Map Generator. This structure is inspired by the Retrieval-Augmented Generation (RAG) architecture, although it differs in that it retrieves geospatial features instead of documents.
 
-The system workflow involves several key steps. When a user inputs a natural language query expressing their mapping needs, the Geospatial Retriever interprets the query and retrieves relevant geospatial data from the data source. Subsequently, the Map Generator transforms the retrieved data and the user's intent into an interactive web map. [Figure @fig:syscomp] shows this process in detail.
+The system workflow involves several key steps. When a user inputs a natural language query expressing their mapping needs, the Geospatial Retriever interprets the query and retrieves relevant geospatial data from the data source. Subsequently, the Map Generator transforms the retrieved data and the user's intent into an interactive web map. Figure \ref{fig:system_logical_architecture} shows this process in detail.
 
 
 \begin{figure}[htbp]
@@ -23,7 +23,7 @@ The system workflow involves several key steps. When a user inputs a natural lan
     \includegraphics[width=\textwidth]{syscomp}
     \caption{System logical architecture}
     \label{fig:system_logical_architecture}
-  \end{figure}
+\end{figure}
 
 
 \subsection{Geospatial Retriever}
@@ -118,17 +118,20 @@ Nevertheless, for the scope of this thesis, the evaluation focuses on the text-t
 % TODO: Question table
 \subsection{Metrics}
 
-Two main metrics are used to evaluate the Prompt2Map performancce: Soft F1-score and Consistency Score.
-% Paragraph 1: Describe the metrics used to evaluate accuracy
-
-
-The primary metric used to evaluate accuracy is Soft F1-score. Regular F1-score is common in classification tasks, where the goal is to balance precision and recall.
-
 \subsubsection{The problem with text-to-SQL metrics}
 
 Can a question be represented as a SQL query? This is the main question that text-to-SQL systems aim to answer. However, evaluating the performance of these systems is challenging due to the inherent ambiguity and complexity of natural language queries. Even for human annotators, determining the correct SQL query for a given question can be a non-trivial task, as it requires an understanding of the underlying database schema, the semantics of the question, and the intended query result. Therefore, developing robust evaluation metrics that can accurately assess the performance of text-to-SQL systems is crucial for advancing the field and enabling fair comparisons between different approaches.
 
 There are multiple benchmarks for text-to-SQL evaluation, such as Spider \cite{yu_spider_2018}, BIRD \cite{li_can_2023} and WikiSQL \cite{zhongSeq2SQL2017}. These benchmarks provide standardized datasets with natural language questions paired with their corresponding SQL queries, allowing researchers to evaluate the performance of their systems on common tasks. The two main evaluation metrics for the text-to-SQL task are Exact Matching (EM) and Execution Accuracy (EX). EM measures the syntax-level equivalence between the generated SQL query and the ground truth query, while EX evaluates the execution results of the generated query.
+
+\begin{equation}
+    \text{EM} = \frac{\text{Number of exact matches}}{\text{Total number of queries}}
+\end{equation}
+
+\begin{equation}
+    \text{EA} = \frac{\text{Number of correct executions}}{\text{Total number of queries}}
+\end{equation}
+
 
 However, those metrics have limitations that can lead to biased results and inaccurate performance assessments (Lopez). While EM evaluates the syntax-level equivalence of queries, it often leads to high false negative rates, as the same logical intent can be represented through various query structures and alises. On the other hand, EX focuses on the execution results of the generated queries, providing a more robust evaluation metric. However, EX is not without its limitations, as it can produce false positives when incorrect queries yield correct results, and false negatives when extra fields are included in the output.
 
@@ -136,41 +139,70 @@ However, those metrics have limitations that can lead to biased results and inac
 
 The hardness of EM and EX is that both require exact matches between the generated SQL query and the ground truth. This is a very strict requirement, as even small variations in the generated query can lead to a mismatch. To address this issue, the Soft F1-score was introduced as a more lenient evaluation metric that considers the data similarity between the generated and ground truth queries. 
 
-The original F1-score is a metric commonly used in classification tasks to balance the model's ability to correctly identify positive samples (precision) and to capture all positive samples (recall).
+The original F1-score is a metric commonly used in classification tasks to balance the model's ability to correctly identify positive samples (precision) and to capture all positive samples (recall). 
+
+Precision is the proportion of true positive samples out of the total number of samples predicted as positive. It evaluates the model's accuracy in identifying positive samples (Equation \ref{eq:precision}). Recall is the proportion of true positive samples out of the total number of positive samples in the dataset. It measures the model's ability to capture all positive samples (Equation \ref{eq:recall}). The F1-score is the harmonic mean of precision and recall, providing a balanced evaluation metric that considers both aspects of the model's performance (Equation \ref{eq:f1}).
 
 \begin{equation}
-    F1 = 2 \times \frac{precision \times recall}{precision + recall}
+    \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+    \label{eq:precision}
 \end{equation}
 
-TODO add figure of F1 score in SQL
+\begin{equation}
+    \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+    \label{eq:recall}
+\end{equation}
 
+\begin{equation}
+    \text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+    \label{eq:f1}
+\end{equation}
 
+In the context of text-to-SQL evaluation, the definition of what is a true/false positive/negative is what differences the metrics. EM considers a true positive when the generated query is exactly the same as the ground truth. EX considers a true positive when the generated query returns the exact same results as the ground truth. The Soft F1-score relaxes the requirement of exact matches, considering the similarity between the generated and ground truth queries, as shown in Figure \ref{fig:tp_tn_sql}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{tp_tn_sql}
+    \caption{True and False Positives and Negatives in SQL evaluation for Soft F1-score. The solid border represents the ground truth, while the dashed border represents the generated query.}
+    \label{fig:tp_tn_sql}
+\end{figure}
 
 \subsubsection{Consistency}
 
-To assess the consistency of the Prompt2Map outputs across multiple runs, we introduced a metric termed Consistency Entropy. This metric is derived from the normalized entropy of the model's output distribution across repeated trials for the same prompt. In this context, lower entropy signifies higher consistency, as the model consistently generates similar outputs for identical inputs. Normalized entropy was chosen to ensure comparability across varying levels of output complexity, where more complex maps naturally involve higher diversity. This metric provides insight into the stability and reliability of the system, which are critical for practical applications.
-
-a measure of uncertainty, or of "poorness of a guess," which will be high when the number of alternative possibilities is nigh, and low when some of the possibilities are much more likely than others
-
-In addition to Consistency Entropy, the frequency of the mode is used. This metric provides a simple yet effective measure of the most common output generated by the system across multiple runs. A high mode frequency indicates that the system consistently produces a specific output, which can be beneficial for tasks requiring deterministic results. By combining Consistency Entropy and mode frequency, the evaluation framework captures both the diversity and stability of the system's outputs, offering a comprehensive assessment of its performance.
+To assess the consistency of the Prompt2Map outputs across multiple runs, we introduced a metric termed Consistency Entropy. The entropy (Equation \ref{eq:entropy}) is the amount of bits required to encode the information in a message, and it is a measure of uncertainty. The normalized entropy (Equation \ref{eq:norm_entropy}) is the entropy divided by the maximum possible entropy, which is the logarithm of the number of possible outputs. This normalization ensures that the entropy value is between 0 and 1, making it comparable across different scenarios. The Consistency Entropy (Equation \ref{eq:consistency_entropy}) is defined as \(1 - \text{normalized entropy}\), where a higher score indicates higher consistency.
 
 \begin{equation}
     H(X) = - \sum_{i=1}^{n} p(x_i) \log_2 p(x_i)
+    \label{eq:entropy}
 \end{equation}
 
 \begin{equation}
     H_{rel}(X) = \frac{H(X)}{\log_2 n} 
+    \label{eq:norm_entropy}
+\end{equation}
+
+\begin{equation}
+    \text{Consistency Entropy} = 1 - H_{rel}(X)
+    \label{eq:consistency_entropy}
 \end{equation}
 
 
-Mode frequency: frequency of the most frequent item
+%a measure of uncertainty, or of "poorness of a guess," which will be high when the number of alternative possibilities is nigh, and low when some of the possibilities are much more likely than others
+
+For example, consider two different output distributions for a given prompt. If the system consistently generates the same output "AAAAA" across all runs, the entropy of this distribution is zero, indicating no uncertainty, and the consistency score is 1, reflecting perfect consistency. Conversely, if the system produces a uniform distribution of outputs "A", "B", "C", "D", and "E" with equal probability, the entropy reaches its maximum value, indicating high uncertainty, and the consistency score is minimized, reflecting low consistency.
+
+This might lead to cases that are unintuitive. For instance, the normalized entropy of AAAAABBBBB is the same as ABCDEFGHIJ (both are 1), but the second one has more diversity. This is because the normalized entropy is compares the distribution of the outputs, not the outputs themselves. Both ouputs are uniformly distributed, there for the same normalized entropy (the maximum value).
+
+As diversity is also a relevant aspect of the system's performance, we introduce a second metric, the relative mode frequency (Equation \ref{eq:mode_frequency}). This metric provides a simple yet effective measure of the most common output generated by the system across multiple runs. A high mode frequency indicates that the system consistently produces a specific output, which can be beneficial for tasks requiring deterministic results. By combining Consistency Entropy and mode frequency, the evaluation framework captures both the diversity and stability of the system's outputs, offering a comprehensive assessment of its performance.
+
 \begin{equation}
     \text{Mode Frequency (X)} = \frac{\text{Number of occurrences of the mode}}{\text{Total number of runs}} = \frac{\max_{x \in X} \text{count}(x)}{|X|}
+    \label{eq:mode_frequency}
 \end{equation}
 
 
-% TODO: Explicar como voy a agregar los datos (Macro F1) y la consistencia (entropía y frecuencia de la moda)
-% TODO: Evaluation questions table
+This metric penalizes having a high diversity of outputs. For example, the relative mode frequency of AAAAABBBBB is $\frac{1}{2}$, while the relative mode frequency of ABCDEFGHIJ is 0.1. This metric complements the Consistency Entropy by providing a measure of the most common output generated by the system, offering insights into the system's deterministic behavior.
+
 
 \subsection{Evaluation Questions}
 
@@ -204,67 +236,34 @@ Each question is accompanied by the expected SQL query, which serves as the grou
     \label{tab:evaluation_questions}\\
     \toprule
     \rowcolor{Gainsboro}%
-    \textbf{ID} & \textbf{Question} & \textbf{Expected SQL} \\
+       ID & Question & Expected SQL \\
     \midrule
-1 & Which Freguesias have the highest percentage of buildings constructed before 1945? & \lstinline!SELECT c."Freguesia",
-(c."N_EDIFICIOS_CONSTR_ANTES_1919" + c."N_EDIFICIOS_CONSTR_1919A1945") / (c."N_EDIFICIOS_CLASSICOS") * 100 AS percentage,
-c."geometry"
-FROM censo2021pt.censo2021_freguesia c
-ORDER BY percentage DESC;! \\
-2 & How does the absolute distribution of one- or two-floor buildings vary across Municipios? & \lstinline!SELECT c."Municipio",
-       SUM(c."N_EDIFICIOS_1OU2_PISOS") AS building_count,
-       ST_Union(c."geometry") AS geometry
-FROM censo2021pt.censo2021_freguesia c
-GROUP BY c."Municipio"! \\
-3 & In which Distritos is the absolute number of single-family or two-family homes highest? & \lstinline!SELECT c."Distrito",
-       SUM(c."N_EDIFICIOS_CLASSICOS_1OU2_ALOJ") AS single_family_homes,
-       ST_Union(c."geometry") AS geometry
-FROM censo2021pt.censo2021_freguesia c
-GROUP BY c."Distrito"
-ORDER BY single_family_homes DESC;! \\
-4 & What is the ratio of rented housing to owned housing in different Freguesias? & \lstinline!SELECT c."Freguesia",
-       (c."N_RHABITUAL_ARRENDADOS") / (c."N_RHABITUAL_PROP_OCUP") AS rent_own_ratio,
-       c."geometry"
-FROM censo2021pt.censo2021_freguesia c
-ORDER BY rent_own_ratio DESC;! \\
-5 & What percentage of buildings are constructed with three or more apartments in each Freguesia? & \lstinline!SELECT c."Freguesia",
-       (c."N_EDIFICIOS_CLASSICOS_3OUMAIS_ALOJ" / c."N_EDIFICIOS_CLASSICOS") * 100 AS multi_family_density,
-       c."geometry"
-FROM censo2021pt.censo2021_freguesia c
-ORDER BY multi_family_density DESC;! \\
-6 & Which Municipios have the highest proportion of individuals aged 65 or older? & \lstinline!SELECT c."Municipio",
-       SUM(c."N_INDIVIDUOS_65_OU_MAIS") / SUM(c."N_INDIVIDUOS") * 100 AS age_65_plus_percentage,
-       ST_Union(c."geometry") AS geometry
-FROM censo2021pt.censo2021_freguesia c
-GROUP BY c."Municipio"
-ORDER BY age_65_plus_percentage DESC;! \\
-7 & Which Freguesias have the highest male-to-female ratio in the population? & \lstinline!SELECT c."Freguesia",
-       (c."N_INDIVIDUOS_H" / NULLIF(c."N_INDIVIDUOS_M", 0)) AS male_to_female_ratio,
-       c."geometry"
-FROM censo2021pt.censo2021_freguesia c
-ORDER BY male_to_female_ratio DESC;! \\
-8 & Where are parking-accessible residential accommodations more common across Municipios relative to all residences? & \lstinline!SELECT c."Municipio",
-       SUM(c."N_RHABITUAL_COM_ESTACIONAMENTO") / SUM(c."N_CLASSICOS_RES_HABITUAL") * 100 AS parking_accessible,
-       ST_Union(c."geometry") AS geometry
-FROM censo2021pt.censo2021_freguesia c
-GROUP BY c."Municipio"
-ORDER BY parking_accessible DESC;! \\
-9 & What is the percentage of individuals with no formal education across Distritos? & \lstinline!SELECT c."Distrito",
-       SUM(c."N_INDIVIDUO_ENSINCOMP_NENHUM") / SUM(c."N_INDIVIDUOS") * 100 AS no_education_percentage,
-       ST_Union(c."geometry") AS geometry
-FROM censo2021pt.censo2021_freguesia c
-GROUP BY c."Distrito"
-ORDER BY no_education_percentage DESC;! \\
-10 & In which Freguesias is the unemployment rate highest? & \lstinline!SELECT c."Freguesia",
-       ((c."N_INDIVIDUOS_DESEMPREGADOS_1EMP" + c."N_INDIVIDUOS_DESEMPREGADOS_NOVOEMP") / NULLIF(c."N_INDIVIDUOS_COM_ATIVIDADE_ECONOMICA", 0)) * 100 AS unemployment_rate,
-       c."geometry"
-FROM censo2021pt.censo2021_freguesia c
-ORDER BY unemployment_rate DESC;! \\
+\phantomsection\label{question:1}1 & Which Freguesias have the highest percentage of buildings constructed before 1945? & \lstinline!SELECT c.Freguesia, (c.N_EDIFICIOS_CONSTR_ANTES_1919 + c.N_EDIFICIOS_CONSTR_1919A1945) / (c.N_EDIFICIOS_CLASSICOS) * 100 AS percentage, c.geometry FROM censo2021pt.censo2021_freguesia c ORDER BY percentage DESC;! \\
+\phantomsection\label{question:2}2 & How does the absolute distribution of one- or two-floor buildings vary across Municipios? & \lstinline!SELECT c.Municipio, SUM(c.N_EDIFICIOS_1OU2_PISOS) AS building_count, ST_Union(c.geometry) AS geometry FROM censo2021pt.censo2021_freguesia c GROUP BY c.Municipio;! \\
+\phantomsection\label{question:3}3 & In which Distritos is the absolute number of single-family or two-family homes highest? & \lstinline!SELECT c.Distrito, SUM(c.N_EDIFICIOS_CLASSICOS_1OU2_ALOJ) AS single_family_homes, ST_Union(c.geometry) AS geometry FROM censo2021pt.censo2021_freguesia c GROUP BY c.Distrito ORDER BY single_family_homes DESC;! \\
+\phantomsection\label{question:4}4 & What is the ratio of rented housing to owned housing in different Freguesias? & \lstinline!SELECT c.Freguesia, (c.N_RHABITUAL_ARRENDADOS) / (c.N_RHABITUAL_PROP_OCUP) AS rent_own_ratio, c.geometry FROM censo2021pt.censo2021_freguesia c ORDER BY rent_own_ratio DESC;! \\
+\phantomsection\label{question:5}5 & What percentage of buildings are constructed with three or more apartments in each Freguesia? & \lstinline!SELECT c.Freguesia, (c.N_EDIFICIOS_CLASSICOS_3OUMAIS\_ALOJ / c.N_EDIFICIOS_CLASSICOS) * 100 AS multi_family_density, c.geometry FROM censo2021pt.censo2021_freguesia c ORDER BY multi_family_density DESC;! \\
+\phantomsection\label{question:6}6 & Which Municipios have the highest proportion of individuals aged 65 or older? & \lstinline!SELECT c.Municipio, SUM(c.N_INDIVIDUOS_65_OU_MAIS) / SUM(c.N_INDIVIDUOS) * 100 AS age_65_plus_percentage, ST_Union(c.geometry) AS geometry FROM censo2021pt.censo2021_freguesia c GROUP BY c.Municipio ORDER BY age_65_plus_percentage DESC;! \\
+\phantomsection\label{question:7}7 & Which Freguesias have the highest male-to-female ratio in the population? & \lstinline!SELECT c.Freguesia, (c.N_INDIVIDUOS_H / NULLIF(c.N_INDIVIDUOS_M, 0)) AS male_to_female_ratio, c.geometry FROM censo2021pt.censo2021_freguesia c ORDER BY male_to_female_ratio DESC;! \\
+\phantomsection\label{question:8}8 & Where are parking-accessible residential accommodations more common across Municipios relative to all residences? & \lstinline!SELECT c.Municipio, SUM(c.N_RHABITUAL_COM_ESTACIONAMENTO) / SUM(c.N_CLASSICOS_RES_HABITUAL) * 100 AS parking_accessible, ST_Union(c.geometry) AS geometry FROM censo2021pt.censo2021_freguesia c GROUP BY c.Municipio ORDER BY parking_accessible DESC;! \\
+\phantomsection\label{question:9}9 & What is the percentage of individuals with no formal education across Distritos? & \lstinline!SELECT c.Distrito, SUM(c.N_INDIVIDUO_ENSINCOMP_NENHUM) / SUM(c.N_INDIVIDUOS) * 100 AS no_education_percentage, ST_Union(c.geometry) AS geometry FROM censo2021pt.censo2021_freguesia c GROUP BY c.Distrito ORDER BY no_education_percentage DESC;! \\
+\phantomsection\label{question:10}10 & In which Freguesias is the unemployment rate highest? & \lstinline!SELECT c.Freguesia, ((c.N_INDIVIDUOS_DESEMPREGADOS_1EMP + c.N_INDIVIDUOS_DESEMPREGADOS_NOVOEMP) / NULLIF(c.N_INDIVIDUOS_COM_ATIVIDADE_ECONOMICA, 0)) * 100 AS unemployment_rate, c.geometry FROM censo2021pt.censo2021_freguesia c ORDER BY unemployment_rate DESC;! \\
     \bottomrule
 \end{xltabular}
 \egroup
 }
 
+% hyperref[question:10]{Question 10}
+\subsection{Aggregation}
 
+All the questions were tested 10 times using the prompt2map package. For each test, the system generated a SQL query based on the natural language question, which was used to compute the previously described metrics. The 10 results were aggregated as it follows:
 
-\lipsum[1-2]
+\begin{itemize}
+       \item Completion rate: percentage of successful completions (i.e., the system generated a valid SQL query that executed without errors) out of the total number of runs.
+       \item Macro Precision: the average precision across all runs.
+       \item Macro Recall: the average recall across all runs.
+       \item Macro Soft F1-score: the average Soft F1-score across all runs.
+       \item Frequency of the mode: the frequency of the most common output generated by the system across all runs.
+       \item Consistency Entropy: the normalized entropy of the model's output distribution across all runs.
+\end{itemize}
+   
