@@ -17,7 +17,7 @@ This chapter presents the results of the system's performance in generating SQL 
 
 \section{Summary of Results}
 
-The system was evaluated on ten different questions, each designed to test various aspects of SQL query generation. Table \ref{tab:results} summarizes the performance metrics for each question, including completion rate, macro precision, macro recall, macro Soft F1-score, frequency of the mode, and consistency entropy.
+The system was evaluated on ten different questions, each designed to test various aspects of SQL query generation. Table \ref{tab:results} summarizes the performance metrics for each question.
 
        {\small
         \bgroup
@@ -72,7 +72,7 @@ High-performing questions, such as Q2, Q5, Q8, and Q9, demonstrated strong perfo
 
 Several factors contributed to the strong performance of these questions. Firstly, the prompts were phrased clearly and unambiguously, reducing the likelihood of misinterpretation. For instance, Q2 (“How does the absolute distribution of one- or two-floor buildings vary across Municipios?”) explicitly specifies the variable of interest and the geographical aggregation level. Secondly, the required SQL queries for these questions involved standard aggregation functions and joins that are commonly encountered, such as \texttt{SUM} and \texttt{GROUP BY} clauses. This simplicity facilitated the system's ability to map the natural language to SQL syntax accurately. Lastly, the attributes mentioned in the questions corresponded directly to column names in the database, minimizing the need for complex transformations or reasoning. For example, in Q8, terms like “parking-accessible residential accommodations” directly map to database columns such as \lstinline!N_RHABITUAL_COM_ESTACIONAMENTO!.
 
-These factors collectively enabled the system to generate accurate and consistent SQL queries for high-performing questions, reflecting its proficiency in handling straightforward natural language prompts.
+%These factors collectively enabled the system to generate accurate and consistent SQL queries for high-performing questions, reflecting its proficiency in handling straightforward natural language prompts.
 
 \subsection{Low-Performing Questions}
 
@@ -82,7 +82,7 @@ Several challenges contributed to the lower performance of these questions. The 
 
 Furthermore, low-performing questions often required the use of advanced SQL functions or error handling mechanisms that the system was less adept at generating. In Q10, the calculation of the unemployment rate involves adding two columns and dividing by another, with a potential division by zero, which complicates the query. The attributes mentioned in the questions did not always have a direct one-to-one mapping with database columns, requiring the system to infer or transform terms. This increased the likelihood of errors in the generated SQL.
 
-These challenges highlight areas where the system's natural language understanding and SQL generation capabilities could be improved, particularly in handling complex queries and ambiguous language.
+%These challenges highlight areas where the system's natural language understanding and SQL generation capabilities could be improved, particularly in handling complex queries and ambiguous language.
 
 \section{Visual Analysis of Generated Maps}
 
@@ -90,22 +90,7 @@ To further evaluate the system's performance, Figure \ref{fig:all_comparisons} p
 
 \begin{figure}[htbp]
     \centering
-    % Question 1
-    % \subbottom[Comparison for Question 1]{%
-    %   \begin{minipage}[b]{\textwidth}
-    %     \centering
-    %     \subbottom[Ground Truth\label{fig:q1_gt}]{%
-    %       \includegraphics[width=0.3\linewidth]{q1_gt_map.html.pdf}}%
-    %     \hfill
-    %     \subbottom[Generated Map 1\label{fig:q1_pred1}]{%
-    %       \includegraphics[width=0.3\linewidth]{q1_pred_map_1.html.pdf}}%
-    %     \hfill
-    %     \subbottom[Generated Map 2\label{fig:q1_pred2}]{%
-    %       \includegraphics[width=0.3\linewidth]{q1_pred_map_2.html.pdf}}%
-    %   \end{minipage}
-    % }
-    %\vspace{1em}
-  
+
     % Question 7
     \subbottom[Comparison for Question 7: Which Freguesias have the highest male-to-female ratio in the population?]{%
       \begin{minipage}[b]{\textwidth}
@@ -142,10 +127,36 @@ To further evaluate the system's performance, Figure \ref{fig:all_comparisons} p
 
 \subsection{Analysis of Q7 Map}
 
+For Q7, both generated maps are identical to the ground truth map, despite the low macro Soft F1-score. In this case, the recall is very high, indicating that the generated query is retrieving more data that it needs at the cost of losing precision. The ground truth is a subset of the generated datasets, but the extra columns are penalized, leading to a lower precision score. This discrepancy highlights a limitation of the macro Soft F1-score metric, as it penalizes the model for false positives (extra columns) even when the generated maps accurately reflect the ground truth. The high recall suggests that the system is capable of capturing all relevant data points, but the metric's sensitivity to precision results in a lower overall score. 
+
 %The map generated for Q1 aims to display the percentage of buildings constructed before 1945 in each Freguesia. Despite the lower performance metrics, the visual output appears to reflect the expected geographical distribution of older buildings. However, upon closer examination, inconsistencies become evident. The percentages in some regions may not align with known historical data, suggesting potential errors in the calculation within the SQL query. Additionally, the color scale used may not appropriately represent the range of percentages, potentially misleading the interpretation of the data. Certain Freguesias may be missing from the map or display null values, indicating issues with data retrieval or handling of null values in the SQL query.
 
 %These issues highlight the impact of errors in the SQL generation on the final visual output, emphasizing the importance of accuracy in earlier stages of the data processing pipeline.
 
 \subsection{Analysis of Q10 Map}
 
+For Q10, Generated Map 1 might seem identical to the ground truth map at first glance, but it actually contains fewer rows. This discrepancy arises because the underlying SQL query is incorrect. The query groups the data by Freguesia name alone, but there are multiple Freguesias with the same name across different Municipios. Therefore, the correct approach would be to group by both Freguesia and Municipio to ensure accurate aggregation. On the other hand, Generated Map 2 displays a single feature, which we could assume represents the Freguesia with the highest unemployment rate. This result could also answer the original question, indicating potential ambiguity in the prompt that leads to inconsistent outputs. The system's interpretation of the question might vary, causing it to generate different results based on its understanding of the query requirements.
+
 %For Q10, the map displays the unemployment rate across Freguesias. Similar to Q1, the map provides a general overview but suffers from potential inaccuracies. The unemployment rate calculation involves dividing the sum of unemployed individuals by the number of economically active individuals, with potential division by zero. Errors in handling these cases can lead to incorrect rates. The map may show anomalously high or low unemployment rates in certain areas, which could result from incorrect data aggregation or misinterpretation of the SQL query. Moreover, the map's visual elements, such as the legend, color gradients, and labeling, may not effectively convey the information, making it difficult to interpret the results accurately.
+
+\section{Web Application}
+
+The Prompt2Map system includes a user-friendly web application built using Streamlit, named Census Map GPT. This application allows users to generate maps based on census data through natural language prompts. The frontend captures the user's intent and translates it into SQL queries, which are then used to retrieve and visualize the relevant data.
+
+Figure~\ref{fig:prompt2map_ui} illustrates the interface of the Census Map GPT application. Subfigure~\ref{fig:subfig1} shows the prompt input area where users can type their queries. Subfigure~\ref{fig:subfig2} displays the generated map based on the user's prompt. Subfigure~\ref{fig:subfig3} presents the data retrieved from the database, and subfigure~\ref{fig:subfig4} shows the SQL query generated from the user's prompt.
+
+\begin{figure}[htbp]
+  \centering
+  \subbottom[Prompt to generate a map\label{fig:subfig1}]{%
+    \includegraphics[width=0.5\linewidth]{censusmapgpt_1}}%
+  \subbottom[Generated map\label{fig:subfig2}]{%
+    \includegraphics[width=0.5\linewidth]{censusmapgpt_2}}\\
+  \subbottom[Generated data\label{fig:subfig3}]{%
+    \includegraphics[width=0.5\linewidth]{censusmapgpt_3}}%
+  \subbottom[Generated SQL\label{fig:subfig4}]{%
+    \includegraphics[width=0.5\linewidth]{censusmapgpt_4}}%
+  \caption{Census Map GPT UI for Prompt2Map}
+  \label{fig:prompt2map_ui}
+\end{figure}
+
+The web application enhances accessibility by allowing users without technical expertise in SQL or data visualization tools to interact with complex datasets effectively. By leveraging natural language processing, the system simplifies the process of data retrieval and visualization, making it more intuitive and efficient.
