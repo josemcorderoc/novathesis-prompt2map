@@ -23,13 +23,13 @@
 
 % 3. Comparison with Existing Solutions
 % // TODO: Fig Table comparing Prompt2Map with traditional GIS tools in terms of features.
-% // TODO: Provide an overview of GIS tools requiring technical expertise versus Prompt2Map’s simplicity.
+% // TODO: Provide an overview of GIS tools requiring technical expertise versus Prompt2Map's simplicity.
 % // TODO: Discuss advantages of Prompt2Map, such as its ability to use RAG for data extraction and mapping.
 % // TODO: Identify limitations in handling ambiguous or overly complex natural language queries.
 
 % 4. Strengths and Limitations
 % // TODO: Explain the effectiveness of RAG in integrating geospatial data extraction and visualization.
-% // TODO: Highlight the system’s accessibility and usability for a broader audience.
+% // TODO: Highlight the system's accessibility and usability for a broader audience.
 % // TODO: Discuss limitations, such as the dependency on LLM quality and geospatial data precision.
 % // TODO: Address potential scalability and performance issues.
 
@@ -50,3 +50,33 @@
 
 % 8. Conclusion of the Discussion
 % // TODO: Briefly summarize the discussion and transition to the conclusion chapter.
+
+\section{Interpretation of Results}
+
+The evaluation of Prompt2Map demonstrates its capability to effectively translate natural language prompts into SQL queries for generating accurate and reproducible geospatial maps. The system achieved high completion rates and macro precision across most test cases, reflecting its reliability in handling well-defined prompts. However, the observed variations in performance metrics, particularly for more complex queries, highlight areas where the system can improve. These challenges underscore the trade-offs between simplicity and versatility in natural language interfaces for GIS.
+
+The scatter matrix analysis revealed positive correlations among metrics such as macro F1-score, frequency of the mode, and consistency entropy. These correlations emphasize that consistent and accurate outputs often go hand-in-hand, with better performance in one area reinforcing reliability across others. High-performing questions exemplified how clear language, direct schema mappings, and standard SQL constructs enable robust query generation. Conversely, low-performing questions exposed the system's limitations in handling ambiguous prompts or advanced SQL requirements, such as division by zero or multi-column computations.
+
+\section{Comparison with Existing Work}
+
+Prompt2Map aligns with the goals of self-service GIS systems, as discussed by \citep{rowland_towards_2020}, by democratizing access to geospatial analysis tools. Unlike traditional GIS interfaces that often require technical expertise, Prompt2Map allows users to query spatial data using intuitive, natural language prompts. This approach offers significant advantages in accessibility and usability compared to systems relying on complex graphical interfaces or semantic web-based solutions.
+
+Unlike generative image AI models like DALL-E 2, which \citep{zhang_ethics_2023} note may produce irreproducible and sometimes misleading outputs, Prompt2Map ensures reproducibility by relying on deterministic SQL queries and structured datasets. While the initial generation of SQL queries by the LLM may introduce some variability, the subsequent execution of these queries on structured datasets ensures that the outputs are replicable. This design choice enhances trustworthiness and aligns with best practices for geospatial research. However, the potential to integrate Linked Data in future iterations of Prompt2Map could extend its capabilities, enabling richer, more interoperable analyses while maintaining its strengths in accuracy and reproducibility.
+
+\section{Addressing Ethical Challenges}
+
+Prompt2Map effectively addresses several ethical concerns identified in the literature. Misleading information, a key risk in AI-generated maps as noted by Zhang et al. (2023), can occur if SQL queries are incorrect or poorly generated. By incorporating rigorous testing and evaluation metrics, such as the macro F1-score, Prompt2Map reduces the likelihood of such errors. Unanticipated features, often indicative of low precision, are similarly mitigated through robust evaluation and continuous system improvements.
+
+Reproducibility, a challenge for many generative systems, is a core strength of Prompt2Map. Each generated map is traceable to a specific SQL query and dataset, ensuring outputs are transparent and replicable. This aligns with calls for reproducibility in geospatial research by \citep{zhang_ethics_2023}, further supporting the system's reliability. While Prompt2Map does not process sensitive individual-level data, it remains crucial to maintain robust data privacy measures, particularly if the system integrates more complex datasets in the future.
+
+\section{Interpretation of Results}
+
+The integration of natural language interfaces into GIS systems, as exemplified by Prompt2Map, offers transformative potential. By lowering the barrier to entry for non-expert users, these systems democratize access to spatial analysis and visualization tools. This aligns with the broader vision of self-service GIS systems, as outlined by \citep{rowland_towards_2020}, and contributes to a growing body of work exploring the intersection of GIS and NLP technologies.
+
+Prompt2Map's approach demonstrates how SQL-based systems can serve as a foundation for ethical and reproducible GIS tools. However, the potential to integrate Linked Data presents an exciting avenue for future work, enabling richer data interoperability and expanding the system's analytical capabilities. Such enhancements could position Prompt2Map as a key tool for advancing equity and accessibility in geospatial science, as suggested by \citep{wang_gpt_2024}. Moreover, the system's simplicity and usability make it well-suited for educational applications, urban planning, and public information dissemination.  
+
+\section{Limitations and Future Work}
+
+Despite its strengths, Prompt2Map exhibits limitations in handling complex queries, ambiguous language constructs, and advanced SQL operations. Enhancing the system's natural language understanding capabilities and incorporating more sophisticated error-handling mechanisms could address these challenges. The integration of Linked Data, while promising, would require careful consideration of interoperability and data governance issues.
+
+Future work should also explore the system's performance in diverse real-world scenarios and with more complex datasets. Conducting user studies could provide insights into common challenges faced by non-expert users, informing further refinements to the system's interface and functionality. Additionally, incorporating privacy-preserving technologies and ensuring compliance with data protection regulations will be essential as the system evolves.
