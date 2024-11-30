@@ -194,10 +194,7 @@
   \appto{\chaptitlefont}{\centering}%
   \selectlanguage{\@LANG@COVER}%
 }
-\NTAddToHook{abstract/mid}{%
-  % \let\oldchapterheadstart=\chapterheadstart%
-  {{\noindent\newsgottbf\Large\thedoctitle(\@LSHORT,main)}\\[1ex]}%
-}
+
 \NTAddToHook{abstract/post}{%
   \let\chapterheadstart=\oldchapterheadstart%
 }
