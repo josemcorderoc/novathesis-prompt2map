@@ -11,47 +11,6 @@
 \chapter{Discussion}
 \label{cha:discussion}
 
-% 1. Introduction
-% // TODO: Brief overview of the discussion's purpose.
-% // TODO: Recap of thesis objectives, emphasizing the need to simplify map creation and make geospatial data accessible through natural language interfaces.
-
-% 2. Key Findings
-% // TODO: Summarize how Prompt2Map converts natural language into web maps using LLMs and RAG.
-% // TODO: Highlight the system's ability to handle synthetic prompts effectively in performance tests.
-% // TODO: Discuss the implications of successfully bridging the gap between map producers and consumers.
-% // TODO: Evaluate the practicality of natural language interfaces in making GIS tools more inclusive.
-
-% 3. Comparison with Existing Solutions
-% // TODO: Fig Table comparing Prompt2Map with traditional GIS tools in terms of features.
-% // TODO: Provide an overview of GIS tools requiring technical expertise versus Prompt2Map's simplicity.
-% // TODO: Discuss advantages of Prompt2Map, such as its ability to use RAG for data extraction and mapping.
-% // TODO: Identify limitations in handling ambiguous or overly complex natural language queries.
-
-% 4. Strengths and Limitations
-% // TODO: Explain the effectiveness of RAG in integrating geospatial data extraction and visualization.
-% // TODO: Highlight the system's accessibility and usability for a broader audience.
-% // TODO: Discuss limitations, such as the dependency on LLM quality and geospatial data precision.
-% // TODO: Address potential scalability and performance issues.
-
-% 5. Ethical Implications
-% // TODO: Discuss how Prompt2Map ensures data privacy when handling sensitive geospatial information.
-% // TODO: Address how biases in source data might propagate into maps.
-% // TODO: Evaluate the responsibility of using such systems in critical applications like disaster response.
-
-% 6. Broader Implications
-% // TODO: Highlight practical applications in education, urban planning, and public information.
-% // TODO: Describe how Prompt2Map advances research in GIS, LLMs, and human-computer interaction.
-% // TODO: Discuss how the system democratizes GIS by bringing spatial information closer to the public.
-
-% 7. Future Work
-% // TODO: Propose enhancements in LLM performance and RAG workflows.
-% // TODO: Suggest extending Prompt2Map to handle temporal or 3D geospatial data.
-% // TODO: Explore how natural language interfaces could evolve for geospatial technologies.
-
-% 8. Conclusion of the Discussion
-% // TODO: Briefly summarize the discussion and transition to the conclusion chapter.
-
-
 \section{Interpretation of Results}
 
 The evaluation of Prompt2Map demonstrates its capability to effectively translate natural language prompts into SQL queries for generating accurate and reproducible geospatial maps. The system achieved high completion rates and macro precision across most test cases, reflecting its reliability in handling well-defined prompts. The scatter matrix analysis revealed positive correlations among metrics such as macro F1-score, frequency of the mode, and consistency entropy. These correlations emphasize that consistent and accurate outputs often go hand-in-hand, with better performance in one area reinforcing reliability across others.
@@ -71,7 +30,7 @@ Prompt2Map shares similarities with these systems but also has unique strengths 
 In terms of implementation, Prompt2Map is a functional, open-source Python package available on GitHub, making it more accessible than research prototypes like GeoGPT and GeoQAMap. However, it lacks the commercial polish and collaborative features of Aino, which positions it as a business-ready product. Additionally, Prompt2Map allows tailored map generation with specific parameters, aligning with the extensibility goals of GeoGPT and Aino. Yet, it does not yet match GeoGPT's integration with professional GIS tools and geoprocessing.
 
 Prompt2Map occupies a promising middle ground between research prototypes and commercial solutions. With further development, it has the potential to bridge this gap by integrating external datasets, such as OpenStreetMap, or connecting to web-based GIS platforms. This would enhance its analytical capabilities and broaden its appeal to a wider audience.
-\subsection{Addressing Ethical Challenges}
+\section{Addressing Ethical Challenges}
 
 Prompt2Map effectively addresses several ethical concerns identified in the literature. Misleading information, a key risk in AI-generated maps \cite{zhang_ethics_2023}, can occur if SQL queries are incorrect or poorly generated. By incorporating rigorous testing and evaluation metrics, such as the macro F1-score, Prompt2Map reduces the likelihood of such errors. Unanticipated features, often indicative of low precision, are similarly mitigated through robust evaluation and continuous system improvements.
 
@@ -83,8 +42,22 @@ The integration of natural language interfaces into GIS systems, as exemplified 
 
 Prompt2Map's approach demonstrates how SQL-based systems can serve as a foundation for ethical and reproducible GIS tools. The potential to integrate Linked Data presents an exciting avenue for future work, enabling richer data interoperability and expanding the system's analytical capabilities. Such enhancements could position Prompt2Map as a key tool for advancing equity and accessibility in geospatial science \cite{wang_gpt_2024}. Moreover, the system's simplicity and usability make it well-suited for educational applications, urban planning, and public information dissemination.
 
-% \subsection{Limitations and Future Work}
+\section{Contributions}
 
-% Prompt2Map exhibits limitations in handling complex queries, ambiguous language constructs, and advanced SQL operations. Enhancing the system's natural language understanding capabilities and incorporating more sophisticated error-handling mechanisms will be critical to addressing these challenges. Future work could focus on expanding the system's performance in diverse real-world scenarios, conducting user studies to refine its usability, and incorporating privacy-preserving technologies to ensure robust data protection.
+This research makes significant contributions to both academic and practical domains. Academically, it advances the intersection of AI and GIS, demonstrating how LLMs can be effectively utilized to interpret spatial queries and automate map generation. The integration of RAG techniques further enriches the field, offering a framework for retrieving and utilizing real-time geospatial data in natural language-driven systems.
 
-% The integration of Linked Data, while promising, would require careful consideration of interoperability and data governance issues. Exploring connections to external datasets such as OpenStreetMap or connecting to web-based GIS platforms could significantly enhance the system's capabilities. Additionally, ensuring compliance with data protection regulations will be essential as the system evolves.
+Practically, Prompt2Map underscores the importance of making geospatial tools accessible to a wider audience. By simplifying interactions with spatial data, the system empowers policymakers, educators, and the general public to engage with geospatial information for decision-making, education, and community initiatives. Performance tests with synthetic prompts validated the system's ability to handle diverse user queries reliably, providing a robust foundation for its applicability in real-world scenarios.
+
+These findings highlight the transformative potential of natural language interfaces to bridge the gap between map producers—GIS experts—and map consumers, such as non-specialist users. By fostering more intuitive interactions with geospatial data, Prompt2Map paves the way for more inclusive and equitable access to spatial insights. In the long term, it has the potential to influence the design of future geospatial technologies, contributing to both research and practice.
+
+\section{Limitations}
+
+While this research demonstrates the viability of natural language-driven GIS tools, certain limitations remain. The use of synthetic prompts for evaluation, while effective for initial testing, may not fully capture the diversity of real-world user queries. The system's reliance on LLMs introduces challenges related to data quality, ambiguity in language interpretation, and scalability when handling complex datasets or queries.
+
+Additionally, Prompt2Map's performance depends on the quality and structure of the underlying geospatial data. Issues such as outdated information or inconsistencies in data formats could impact the accuracy and reliability of the generated maps. Addressing these limitations is essential for enhancing the system's robustness and applicability in diverse contexts.
+
+\section{Future Directions}
+
+To improve Prompt2Map, several enhancements are recommended. First, incorporating real-time data retrieval capabilities would enable the system to generate maps reflecting current conditions, such as traffic patterns or weather events. Second, expanding the system's natural language understanding capabilities to handle more complex queries and ambiguous language constructs would improve user experience. Third, integrating advanced features, such as multi-layered map visualizations and interactive data exploration tools, would cater to a broader range of user needs.
+
+Future research could explore the integration of Prompt2Map with external geospatial platforms like OpenStreetMap or ArcGIS, enabling richer analyses and data interoperability. Conducting user studies would provide insights into the system's usability and inform further refinements. Additionally, addressing ethical challenges, such as ensuring fairness and mitigating biases in LLM-generated outputs, remains a critical area for ongoing investigation.

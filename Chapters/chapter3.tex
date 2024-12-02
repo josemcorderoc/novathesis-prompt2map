@@ -86,62 +86,60 @@ Furthermore, low-performing questions often required the use of advanced SQL fun
 
 \section{Visual Analysis of Generated Maps}
 
-To further evaluate the system's performance, Figure \ref{fig:all_comparisons} presents the generated maps for the two lowest-performing questions based on the macro Soft F1-score: Q7 and Q10. Visual inspection of these maps provides additional insights into the system's capabilities and limitations.
+To further evaluate the system's performance, Figures \ref{fig:comparison_q7} and \ref{fig:comparison_q10} presents the generated maps for the two lowest-performing questions based on the macro Soft F1-score: Q7 and Q10. Visual inspection of these maps provides additional insights into the system's capabilities and limitations.
 
 \begin{figure}[htbp]
     \centering
 
     % Question 7
-    \subbottom[Comparison for Question 7: Which Freguesias have the highest male-to-female ratio in the population?]{%
-      \begin{minipage}[b]{\textwidth}
-        \centering
-        \subbottom[Ground Truth\label{fig:q7_gt}]{%
-          \includegraphics[width=0.3\linewidth]{q7_gt_map.html.pdf}}%
-        \hfill
-        \subbottom[Generated Map 1\label{fig:q7_pred1}]{%
-          \includegraphics[width=0.3\linewidth]{q7_pred_map_1.html.pdf}}%
-        \hfill
-        \subbottom[Generated Map 2\label{fig:q7_pred3}]{%
-          \includegraphics[width=0.3\linewidth]{q7_pred_map_3.html.pdf}}%
-      \end{minipage}
-    }
-    %\vspace{1em}
-  
-    % Question 10
-    \subbottom[Comparison for Question 10: In which Freguesias is the unemployment rate highest?]{%
-      \begin{minipage}[b]{\textwidth}
-        \centering
-        \subbottom[Ground Truth\label{fig:q10_gt}]{%
-          \includegraphics[width=0.3\linewidth]{q10_gt_map.html.pdf}}%
-        \hfill
-        \subbottom[Generated Map 1\label{fig:q10_pred1}]{%
-          \includegraphics[width=0.3\linewidth]{q10_pred_map_1.html.pdf}}%
-        \hfill
-        \subbottom[Generated Map 2\label{fig:q10_pred3}]{%
-          \includegraphics[width=0.3\linewidth]{q10_pred_map_3.html.pdf}}%
-      \end{minipage}
-    }
-    \caption{Comparison of ground truth and generated maps by prompt2map for questions Q7 and Q10. Each row corresponds to a single question.}
-    \label{fig:all_comparisons}
+    \begin{minipage}[b]{\textwidth}
+      \centering
+      \subbottom[Ground Truth\label{fig:q7_gt}]{%
+        \includegraphics[width=0.5\linewidth]{q7_gt_map.html.pdf}}%
+      \hfill
+      \subbottom[Generated Map 1\label{fig:q7_pred1}]{%
+        \includegraphics[width=0.5\linewidth]{q7_pred_map_1.html.pdf}}%
+      \hfill
+      \subbottom[Generated Map 2\label{fig:q7_pred3}]{%
+        \includegraphics[width=0.5\linewidth]{q7_pred_map_3.html.pdf}}%
+    \end{minipage}
+    \caption{Comparison of ground truth and generated maps by Prompt2Map for Question 7: Which Freguesias have the highest male-to-female ratio in the population?}
+    \label{fig:comparison_q7}
   \end{figure}
+
+
+
+  \begin{figure}[htbp]
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \centering
+      \subbottom[Ground Truth\label{fig:q10_gt}]{%
+        \includegraphics[width=0.5\linewidth]{q10_gt_map.html.pdf}}%
+      \hfill
+      \subbottom[Generated Map 1\label{fig:q10_pred1}]{%
+        \includegraphics[width=0.5\linewidth]{q10_pred_map_1.html.pdf}}%
+      \hfill
+      \subbottom[Generated Map 2\label{fig:q10_pred3}]{%
+        \includegraphics[width=0.5\linewidth]{q10_pred_map_3.html.pdf}}%
+    \end{minipage}
+    \caption{Comparison of ground truth and generated maps by Prompt2Map for Question 10: In which Freguesias is the unemployment rate highest?}
+    \label{fig:comparison_q10}
+  \end{figure}
+
+
 
 \subsection{Analysis of Q7 Map}
 
 For Q7, both generated maps are identical to the ground truth map, despite the low macro Soft F1-score. In this case, the recall is very high, indicating that the generated query is retrieving more data that it needs at the cost of losing precision. The ground truth is a subset of the generated datasets, but the extra columns are penalized, leading to a lower precision score. This discrepancy highlights a limitation of the macro Soft F1-score metric, as it penalizes the model for false positives (extra columns) even when the generated maps accurately reflect the ground truth. The high recall suggests that the system is capable of capturing all relevant data points, but the metric's sensitivity to precision results in a lower overall score. 
 
-%The map generated for Q1 aims to display the percentage of buildings constructed before 1945 in each Freguesia. Despite the lower performance metrics, the visual output appears to reflect the expected geographical distribution of older buildings. However, upon closer examination, inconsistencies become evident. The percentages in some regions may not align with known historical data, suggesting potential errors in the calculation within the SQL query. Additionally, the color scale used may not appropriately represent the range of percentages, potentially misleading the interpretation of the data. Certain Freguesias may be missing from the map or display null values, indicating issues with data retrieval or handling of null values in the SQL query.
-
-%These issues highlight the impact of errors in the SQL generation on the final visual output, emphasizing the importance of accuracy in earlier stages of the data processing pipeline.
-
 \subsection{Analysis of Q10 Map}
 
 For Q10, Generated Map 1 might seem identical to the ground truth map at first glance, but it actually contains fewer rows. This discrepancy arises because the underlying SQL query is incorrect. The query groups the data by Freguesia name alone, but there are multiple Freguesias with the same name across different Municipios. Therefore, the correct approach would be to group by both Freguesia and Municipio to ensure accurate aggregation. On the other hand, Generated Map 2 displays a single feature, which we could assume represents the Freguesia with the highest unemployment rate. This result could also answer the original question, indicating potential ambiguity in the prompt that leads to inconsistent outputs. The system's interpretation of the question might vary, causing it to generate different results based on its understanding of the query requirements.
 
-%For Q10, the map displays the unemployment rate across Freguesias. Similar to Q1, the map provides a general overview but suffers from potential inaccuracies. The unemployment rate calculation involves dividing the sum of unemployed individuals by the number of economically active individuals, with potential division by zero. Errors in handling these cases can lead to incorrect rates. The map may show anomalously high or low unemployment rates in certain areas, which could result from incorrect data aggregation or misinterpretation of the SQL query. Moreover, the map's visual elements, such as the legend, color gradients, and labeling, may not effectively convey the information, making it difficult to interpret the results accurately.
 
 \section{Web Application}
 
-The Prompt2Map system includes a user-friendly web application built using Streamlit, named Census Map GPT. This application allows users to generate maps based on census data through natural language prompts. The frontend captures the user's intent and translates it into SQL queries, which are then used to retrieve and visualize the relevant data.
+The Prompt2Map system includes a user-friendly web application built using Streamlit\footnote{\url{https://streamlit.io}}, named Census Map GPT. This application allows users to generate maps based on census data through natural language prompts. The frontend captures the user's intent and translates it into SQL queries, which are then used to retrieve and visualize the relevant data.
 
 Figure~\ref{fig:prompt2map_ui} illustrates the interface of the Census Map GPT application. Subfigure~\ref{fig:subfig1} shows the prompt input area where users can type their queries. Subfigure~\ref{fig:subfig2} displays the generated map based on the user's prompt. Subfigure~\ref{fig:subfig3} presents the data retrieved from the database, and subfigure~\ref{fig:subfig4} shows the SQL query generated from the user's prompt.
 
